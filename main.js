@@ -19,6 +19,52 @@
     reveals.forEach((el) => io.observe(el));
   } else reveals.forEach((el) => el.classList.add("is-visible"));
 
+  /* ---------- typewriter on feature body paragraphs ---------- */
+  const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const typed = Array.from(document.querySelectorAll("[data-type]"));
+
+  function typeInto(p) {
+    const full = p.dataset.fulltext || p.textContent;
+    if (REDUCED) { p.textContent = full; return; }
+    p.textContent = "";
+    const textNode = document.createTextNode("");
+    const caret = document.createElement("span");
+    caret.className = "type-caret";
+    caret.setAttribute("aria-hidden", "true");
+    p.append(textNode, caret);
+    const cps = 92, start = performance.now();
+    (function frame(now) {
+      const n = Math.min(full.length, Math.floor(((now - start) * cps) / 1000));
+      textNode.data = full.slice(0, n);
+      if (n < full.length) requestAnimationFrame(frame);
+      else setTimeout(() => caret.remove(), 900);
+    })(performance.now());
+  }
+
+  function initTyped() {
+    if (!typed.length) return;
+    typed.forEach((p) => {
+      p.dataset.fulltext = p.textContent.trim();
+      p.setAttribute("aria-label", p.dataset.fulltext); // keep full text for screen readers
+      if (!REDUCED) { p.style.minHeight = p.offsetHeight + "px"; p.textContent = ""; } // reserve height, no reflow
+    });
+    if (REDUCED || !("IntersectionObserver" in window)) {
+      typed.forEach((p) => (p.textContent = p.dataset.fulltext));
+      return;
+    }
+    const tio = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) {
+        const p = e.target;
+        setTimeout(() => typeInto(p), 240); // let the headline + window settle first
+        tio.unobserve(p);
+      }
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.25 });
+    typed.forEach((p) => tio.observe(p));
+  }
+
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(initTyped);
+  else window.addEventListener("load", initTyped);
+
   /* ---------- direct download (no leaving the page) ---------- */
   function triggerDownload(url) {
     const a = document.createElement("a");

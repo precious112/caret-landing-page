@@ -189,10 +189,44 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
 @keyframes fade { from { opacity: 0; } }
 @keyframes pop { from { opacity: 0; transform: translateY(12px) scale(.97); } }
 
-/* ---------- reveal ---------- */
-.reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
+/* ---------- motion ---------- */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
 .reveal.is-visible { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+
+/* product window lift (a touch stronger than the generic reveal) */
+.shot.reveal { transform: translateY(28px) scale(.985); transition: opacity .65s ease, transform .75s cubic-bezier(.2,.7,.2,1); }
+.shot.reveal.is-visible { transform: none; }
+
+/* staggered "more" three-up */
+.more-item.reveal:nth-child(2) { transition-delay: .09s; }
+.more-item.reveal:nth-child(3) { transition-delay: .18s; }
+
+/* hero entrance on load */
+@keyframes heroUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes heroUpShot { from { opacity: 0; transform: translateY(30px) scale(.985); } to { opacity: 1; transform: none; } }
+.hero > * { animation: heroUp .65s both cubic-bezier(.2,.7,.2,1); }
+.hero > *:nth-child(1) { animation-delay: .02s; }
+.hero > *:nth-child(2) { animation-delay: .10s; }
+.hero > *:nth-child(3) { animation-delay: .18s; }
+.hero > *:nth-child(4) { animation-delay: .26s; }
+.hero > *:nth-child(5) { animation-delay: .34s; }
+.hero-shot { animation-name: heroUpShot; animation-duration: .8s; animation-delay: .42s; }
+
+/* typewriter caret */
+.type-caret { display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: -2px; background: var(--accent); animation: caretBlink 1.05s steps(1) infinite; }
+@keyframes caretBlink { 50% { opacity: 0; } }
+
+/* primary CTA arrow nudge */
+.btn-cta::after { content: "→"; margin-left: 5px; display: inline-block; transition: transform .18s ease; }
+.btn-cta:hover::after { transform: translateX(4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .shot.reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .hero > *, .hero-shot { animation: none !important; }
+  .type-caret { display: none !important; }
+  .btn-cta::after { transition: none !important; }
+  html { scroll-behavior: auto; }
+}
 
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
