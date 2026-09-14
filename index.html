@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Caret — design and code, one and the same</title>
-  <meta name="description" content="Caret is an AI design tool in your IDE. Shape real React on a live canvas, edit it visually, and ship it. No separate design tool to keep in sync." />
+  <title>Caret — the design tool that edits your real code</title>
+  <meta name="description" content="Caret renders your pages on a canvas, live. Change them by pointing and clicking, or just ask. Every change lands in the files you ship. Free, open source, runs on your machine." />
   <link rel="icon" type="image/png" href="assets/caret-logo.png" />
-  <meta property="og:title" content="Caret — design and code, one and the same" />
-  <meta property="og:description" content="An AI design tool in your IDE. Shape real React on a live canvas and ship it." />
+  <meta property="og:title" content="Caret — the design tool that edits your real code" />
+  <meta property="og:description" content="Your pages render on a canvas, live. Change them by pointing and clicking, or just ask. Every change lands in the files you ship." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/caret-logo.png" />
+  <meta property="og:url" content="https://caretai.cloud/" />
+  <meta property="og:image" content="https://caretai.cloud/assets/video/hero-loop.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,8 +28,9 @@
     <nav class="nav-links">
       <a href="#why">Why Caret</a>
       <a href="#features">Features</a>
+      <a href="#agents">Agents</a>
       <a href="#download">Download</a>
-      <a href="https://github.com/precious112/caret-ide" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">GitHub</a>
     </nav>
     <a class="btn btn-ink btn-sm" href="#download">Download</a>
   </header>
@@ -35,144 +38,156 @@
   <main id="top">
     <!-- ───────── HERO ───────── -->
     <section class="hero">
-      <span class="logo-chip logo-chip-lg"><img src="assets/caret-logo.png" alt="Caret" /></span>
-      <h1 class="hero-title">Design and code,<br />one and the same.</h1>
-      <p class="hero-sub">
-        Caret turns your editor into a design surface. Shape real React on a live canvas,
-        edit it visually, then ship it. No separate design tool to keep in sync.
+      <canvas class="hero-shader" id="heroShader" aria-hidden="true"></canvas>
+
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <h1 class="hero-title">The design tool that<br class="hero-br" />edits your real code.</h1>
+          <p class="hero-sub">
+            Your pages render on a canvas, live. Change them by pointing and clicking,
+            or just ask. Every change lands in the files you ship.
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-ink btn-lg btn-cta" id="heroDownload" href="#download">Download for macOS</a>
+            <a class="btn btn-line btn-lg" href="#features">See how it works</a>
+          </div>
+        </div>
+
+        <div class="shot hero-shot">
+          <div class="shot-bar"><span></span><span></span><span></span><em>caret</em></div>
+          <video class="shot-media" autoplay muted loop playsinline preload="metadata"
+                 poster="assets/video/hero-loop.jpg"
+                 aria-label="Picking a new colour on a live page, then dragging an image larger, both written into the source">
+            <source src="assets/video/hero-loop.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── WHY ───────── -->
+    <section id="why" class="why">
+      <h2 class="why-line" id="whyLine">
+        <span class="w">Your</span> <span class="w">design</span> <span class="w">is</span> <span class="w">the</span> <span class="w">code.</span>
+        <span class="w dim">Not</span> <span class="w dim">a</span> <span class="w dim">picture</span> <span class="w dim">of</span> <span class="w dim">it,</span>
+        <span class="w dim">not</span> <span class="w dim">a</span> <span class="w dim">file</span> <span class="w dim">that</span> <span class="w dim">drifts.</span>
+      </h2>
+      <p class="why-after">
+        It lives in your repo, in git, reviewable in a pull request. So a fix you make once is
+        still there tomorrow, instead of being regenerated away the next time you ask for something.
       </p>
-      <div class="hero-cta">
-        <a class="btn btn-ink btn-cta" id="heroDownload" href="#download">Download for macOS</a>
-        <a class="btn btn-line" href="https://open-vsx.org/extension/caretAI/caret" target="_blank" rel="noopener">Use it in your editor</a>
-      </div>
-      <p class="hero-meta">Free and open source. Available for macOS, Windows, and Linux.</p>
+    </section>
 
-      <div class="shot hero-shot">
-        <div class="shot-bar"><span></span><span></span><span></span><em>caret — editing with AI</em></div>
-        <img class="shot-media" src="assets/gifs/caret_main_edit.gif" alt="Editing a UI with AI on Caret's live canvas" />
+    <!-- ───────── FEATURES ───────── -->
+    <section id="features" class="feat">
+      <div class="feat-head">
+        <h2 class="h2">Every one of these ends in your source file.</h2>
+        <p>The rail is the file. Each stop is another way to change it.</p>
+      </div>
+      <div class="tl" id="timeline"></div>
+    </section>
+
+    <!-- ───────── WHAT YOU STOP DOING ───────── -->
+    <section class="stop">
+      <div class="stop-inner">
+        <h2 class="h2 stop-head">What you stop doing.</h2>
+        <ul class="stop-list">
+          <li>
+            <h3>Stop building the same screen twice.</h3>
+            <p>Once in a design tool where it looked right, once in code where it had to work.
+            Caret deletes the first one.</p>
+          </li>
+          <li>
+            <h3>Stop watching a fix get regenerated away.</h3>
+            <p>Your changes are files in git, not context in a chat window. Next week they are
+            still there.</p>
+          </li>
+          <li>
+            <h3>Stop describing a button in a paragraph.</h3>
+            <p>Point at the thing. Paint over the region you mean. The agent gets the exact
+            elements, not your best attempt at words.</p>
+          </li>
+          <li>
+            <h3>Stop letting an agent invent your spacing.</h3>
+            <p>Caret writes your tokens into <code>AGENTS.md</code>, <code>CLAUDE.md</code> and
+            <code>.cursor/rules</code>, and keeps them current.</p>
+          </li>
+        </ul>
       </div>
     </section>
 
-    <!-- ───────── WHY (normal text section, replaces manifesto) ───────── -->
-    <section id="why" class="why reveal">
-      <div class="why-head">
-        <span class="eyebrow">Why Caret</span>
-        <h2>The handoff was always the problem.</h2>
-      </div>
-      <div class="why-body">
-        <p>You design a screen in one tool, then rebuild it by hand in code, and the two versions drift apart the moment they exist. Caret closes that gap.</p>
-        <p>Your design is real React from the first stroke, living in your repo and ready to ship. With AI doing the heavy lifting, the design and the code become a single artifact. Nothing to hand off, nothing to keep in sync.</p>
-      </div>
-    </section>
-
-    <!-- ───────── FEATURES (product-forward, no card grid) ───────── -->
-    <section id="features" class="features">
-      <article class="feat">
-        <div class="feat-text reveal">
-          <span class="eyebrow">Live canvas</span>
-          <h2>Your whole product, on one canvas.</h2>
-          <p data-type>Every page renders on a zoomable, pannable canvas. The page you're working on runs as live, interactive React; the rest stay fast as thumbnails. Switch viewport presets to check how it holds up across screens.</p>
+    <!-- ───────── AGENTS ───────── -->
+    <section id="agents" class="agents">
+      <div class="cloud">
+        <div class="cloud-mid">
+          <h2 class="h2">Bring the agent you already pay for.</h2>
+          <p>Caret opens your design layer over MCP, so the agent in your terminal can read it
+          and write to it. Or work in Caret and sign in with a coding plan you already pay for.</p>
         </div>
-        <div class="shot reveal">
-          <div class="shot-bar"><span></span><span></span><span></span><em>responsive canvas</em></div>
-          <img class="shot-media" loading="lazy" src="assets/gifs/caret_res_sec_edit.gif" alt="Checking responsive layouts across viewport presets" />
-        </div>
-      </article>
-
-      <article class="feat reverse">
-        <div class="feat-text reveal">
-          <span class="eyebrow">Visual editing</span>
-          <h2>Edit the real UI, not a mockup.</h2>
-          <p data-type>Click an element to change its text, color, or image, written straight back to the source line and hot-reloaded instantly. For structural changes, hand it to AI and Caret makes the precise edit.</p>
-          <p class="feat-note">Edit-with-AI and every source change run on <a href="https://github.com/cline/cline" target="_blank" rel="noopener">Cline</a>, the open-source coding agent Caret is built on.</p>
-        </div>
-        <div class="shot reveal">
-          <div class="shot-bar"><span></span><span></span><span></span><em>inline editing</em></div>
-          <img class="shot-media" loading="lazy" src="assets/gifs/caret_inline_edit_third_edit.gif" alt="Editing text, color and images inline on the rendered UI" />
-        </div>
-      </article>
-
-      <article class="feat">
-        <div class="feat-text reveal">
-          <span class="eyebrow">Flows</span>
-          <h2>Map the journey, then walk it.</h2>
-          <p data-type>Connect pages into flow graphs and overlay them on the canvas. Drag an edge to restructure a journey, then enter simulation mode and click through your app in a device frame, jumping between page states like a real user.</p>
-        </div>
-        <div class="shot reveal">
-          <div class="shot-bar"><span></span><span></span><span></span><em>flows</em></div>
-          <img class="shot-media" loading="lazy" src="assets/gifs/caret_flow_edit.gif" alt="Defining and editing flows between pages" />
-        </div>
-      </article>
-    </section>
-
-    <!-- ───────── MORE (editorial three-up, not cards) ───────── -->
-    <section class="more">
-      <div class="more-item reveal">
-        <h3>A design system, captured</h3>
-        <p>A guided wizard turns color, type, spacing, and radius into tokens that keep every page consistent.</p>
-      </div>
-      <div class="more-item reveal">
-        <h3>Design into your app</h3>
-        <p>When it's ready, Caret writes a reviewable plan and syncs the design into the app you ship. One-way and reversible.</p>
-      </div>
-      <div class="more-item reveal">
-        <h3>A full coding agent</h3>
-        <p>Built on Cline: bring any model, run commands, edit files with reviewable diffs, and stay in control of every step.</p>
       </div>
     </section>
 
     <!-- ───────── DOWNLOAD ───────── -->
-    <section id="download" class="download reveal">
-      <h2 class="dl-title">Get the Caret IDE.</h2>
-      <p class="dl-sub">A ready-to-go editor with Caret built in, based on VS&nbsp;Code (OSS). Pick your platform.</p>
+    <section id="download" class="download">
+      <h2 class="dl-title">Supported platforms.</h2>
+      <p class="dl-sub">Free forever, runs on your machine, no account.</p>
 
       <div class="dl-primary-wrap">
-        <button class="btn btn-ink btn-lg btn-cta" id="dlPrimary" data-os="mac-arm" data-url="https://github.com/precious112/caret-ide/releases/latest/download/Caret-macOS-arm64.zip">Download for macOS</button>
+        <button class="btn btn-ink btn-lg btn-cta" id="dlPrimary" data-url="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-macOS-arm64.zip">Download for macOS</button>
       </div>
 
       <div class="dl-row">
-        <button class="dl-opt" data-url="https://github.com/precious112/caret-ide/releases/latest/download/Caret-macOS-arm64.zip">macOS <span>Apple Silicon</span></button>
-        <button class="dl-opt" data-url="https://github.com/precious112/caret-ide/releases/latest/download/Caret-macOS-x64.zip">macOS <span>Intel</span></button>
-        <button class="dl-opt" data-url="https://github.com/precious112/caret-ide/releases/latest/download/Caret-Windows-UserSetup-x64.exe">Windows <span>x64</span></button>
-        <button class="dl-opt" data-url="https://github.com/precious112/caret-ide/releases/latest/download/Caret-Linux-x86_64.AppImage">Linux <span>AppImage</span></button>
+        <button class="dl-opt" data-os-mark="apple" data-url="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-macOS-arm64.zip">macOS <span>Apple Silicon</span></button>
+        <button class="dl-opt" data-os-mark="apple" data-url="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-macOS-x64.zip">macOS <span>Intel</span></button>
+        <button class="dl-opt" data-os-mark="windows" data-url="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-Windows-Setup-x64.exe">Windows <span>x64</span></button>
+        <button class="dl-opt" data-os-mark="linux" data-url="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-Linux-x86_64.AppImage">Linux <span>AppImage</span></button>
       </div>
       <p class="dl-alt">
         Also:
-        <a href="https://github.com/precious112/caret-ide/releases/latest/download/Caret-Linux-x64.deb" data-direct>.deb</a> ·
-        <a href="https://github.com/precious112/caret-ide/releases/latest/download/Caret-Linux-x64.rpm" data-direct>.rpm</a> ·
-        <a href="https://github.com/precious112/caret-ide/releases/latest/download/Caret-Linux-x64.tar.gz" data-direct>.tar.gz</a> ·
-        <a href="https://github.com/precious112/caret-ide/releases/latest/download/Caret-Windows-Setup-x64.exe" data-direct>Windows system installer</a>
+        <a href="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-Windows-Setup-arm64.exe" data-direct>Windows on Arm</a> &middot;
+        <a href="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-Windows-Portable-x64.exe" data-direct>Windows portable</a> &middot;
+        <a href="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-Linux-amd64.deb" data-direct>.deb</a> &middot;
+        <a href="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-Linux-x86_64.rpm" data-direct>.rpm</a>
       </p>
-
-      <div class="signed">
-        <p class="signed-head">The builds aren't code-signed yet. One command opens them.</p>
-        <p class="signed-sub">Signing certificates are pricey and come once Caret has traction. The apps are safe; your OS just shows a one-time warning.</p>
-        <div class="signed-cmds">
-          <div><b>macOS</b><code>xattr -dr com.apple.quarantine /Applications/Caret.app</code></div>
-          <div><b>Windows</b><code>Unblock-File "$HOME\Downloads\Caret-Windows-UserSetup-x64.exe"</code></div>
-        </div>
-      </div>
-
-      <div class="editor-line">
-        <p>Already in an editor you like? Add Caret from
-          <a href="https://open-vsx.org/extension/caretAI/caret" target="_blank" rel="noopener">Open VSX</a>
-          (VSCodium, Cursor, Windsurf, and other VS&nbsp;Code-compatible editors).</p>
-      </div>
     </section>
+
   </main>
 
   <!-- ───────── FOOTER ───────── -->
   <footer class="footer">
-    <div class="footer-left">
-      <span class="logo-chip"><img src="assets/caret-logo.png" alt="" /></span>
-      <span>Caret</span>
+    <canvas class="footer-shader" id="footShader" aria-hidden="true"></canvas>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-chip"><img src="assets/caret-logo.png" alt="" /></span>
+        <span class="brand-name">Caret</span>
+        <p>A design layer that lives in your repo.<br />Free forever, Apache-2.0.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#agents">Works with</a>
+          <a href="#download">Download</a>
+        </div>
+        <div>
+          <h4>Docs</h4>
+          <a href="https://github.com/precious112/caret#readme" target="_blank" rel="noopener">Read me first</a>
+          <a href="https://github.com/precious112/caret/blob/main/docs/connect-an-agent.md" target="_blank" rel="noopener">Connect your agent</a>
+          <a href="https://github.com/precious112/caret/blob/main/docs/telemetry.md" target="_blank" rel="noopener">Telemetry</a>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <a href="https://github.com/precious112/caret" target="_blank" rel="noopener">Source</a>
+          <a href="https://github.com/precious112/caret-desktop/releases" target="_blank" rel="noopener">Releases</a>
+          <a href="https://github.com/precious112/caret/discussions" target="_blank" rel="noopener">Discussions</a>
+        </div>
+      </div>
     </div>
-    <div class="footer-links">
-      <a href="https://github.com/precious112/caret" target="_blank" rel="noopener">Extension source</a>
-      <a href="https://github.com/precious112/caret-ide" target="_blank" rel="noopener">Caret IDE</a>
-      <a href="https://open-vsx.org/extension/caretAI/caret" target="_blank" rel="noopener">Open VSX</a>
+    <div class="footer-fine">
+      <span>&copy; 2026 Caret</span>
+      <a href="https://github.com/precious112/caret/blob/main/LICENSE" target="_blank" rel="noopener">Apache-2.0</a>
+      <a href="https://github.com/precious112/caret/blob/main/docs/telemetry.md" target="_blank" rel="noopener">What we collect</a>
     </div>
-    <p class="footer-fine">Built on VS&nbsp;Code (OSS) via <a href="https://github.com/VSCodium/vscodium" target="_blank" rel="noopener">VSCodium</a> and <a href="https://github.com/cline/cline" target="_blank" rel="noopener">Cline</a>.</p>
+    <div class="footer-mark" aria-hidden="true">Caret<i></i></div>
   </footer>
 
   <!-- ───────── STAR MODAL ───────── -->
@@ -183,12 +198,14 @@
       <h3 id="starTitle">Your download is starting</h3>
       <p>Caret is free and open source. If it's useful to you, a GitHub star genuinely helps it grow.</p>
       <div class="modal-btns">
-        <a class="btn btn-ink" id="starGo" href="https://github.com/precious112/caret-ide" target="_blank" rel="noopener">★ Star on GitHub</a>
+        <a class="btn btn-ink" id="starGo" href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">★ Star on GitHub</a>
         <button class="btn btn-line" id="starLater">Maybe later</button>
       </div>
     </div>
   </div>
 
+  <script src="hero-shader.js"></script>
+  <script src="sections.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
