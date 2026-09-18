@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Caret — the design tool that edits your real code</title>
-  <meta name="description" content="Caret renders your pages on a canvas, live. Change them by pointing and clicking, or just ask. Every change lands in the files you ship. Free, open source, runs on your machine." />
+  <title>Caret — a design layer that lives in your repo</title>
+  <meta name="description" content="Your design shouldn't live outside your codebase. Caret keeps it in your repo as real React in .caret/, rendered live on a canvas you can click and edit. Free, open source, runs on your machine." />
   <link rel="icon" type="image/png" href="assets/caret-logo.png" />
-  <meta property="og:title" content="Caret — the design tool that edits your real code" />
-  <meta property="og:description" content="Your pages render on a canvas, live. Change them by pointing and clicking, or just ask. Every change lands in the files you ship." />
+  <meta property="og:title" content="Caret — a design layer that lives in your repo" />
+  <meta property="og:description" content="Your design shouldn't live outside your codebase. Caret keeps it in your repo as real React, rendered live on a canvas you can click and edit." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://caretai.cloud/" />
   <meta property="og:image" content="https://caretai.cloud/assets/video/hero-loop.jpg" />
@@ -28,7 +28,8 @@
     <nav class="nav-links">
       <a href="#why">Why Caret</a>
       <a href="#features">Features</a>
-      <a href="#agents">Agents</a>
+      <a href="#how">How it works</a>
+      <a href="#agents">Works with</a>
       <a href="#download">Download</a>
       <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">GitHub</a>
     </nav>
@@ -42,54 +43,47 @@
 
       <div class="hero-inner">
         <div class="hero-copy">
-          <h1 class="hero-title">The design tool that<br class="hero-br" />edits your real code.</h1>
+          <h1 class="hero-title">Your design shouldn&rsquo;t live <br class="hero-br" />outside your codebase.</h1>
           <p class="hero-sub">
-            Your pages render on a canvas, live. Change them by pointing and clicking,
-            or just ask. Every change lands in the files you ship.
+            Caret gives your repo a design layer &mdash; real React in <code>.caret/</code>, rendered live
+            on a canvas you can click and edit. Your app&rsquo;s source stays untouched until you sync.
           </p>
           <div class="hero-cta">
             <a class="btn btn-ink btn-lg btn-cta" id="heroDownload" href="#download">Download for macOS</a>
             <a class="btn btn-line btn-lg" href="#features">See how it works</a>
           </div>
+          <p class="hero-meta">Free forever &middot; runs on your machine &middot; no account</p>
         </div>
 
-        <div class="shot hero-shot">
-          <div class="shot-bar"><span></span><span></span><span></span><em>caret</em></div>
-          <video class="shot-media" autoplay muted loop playsinline preload="metadata"
-                 poster="assets/video/hero-loop.jpg"
-                 aria-label="Picking a new colour on a live page, then dragging an image larger, both written into the source">
-            <source src="assets/video/hero-loop.mp4" type="video/mp4" />
-          </video>
+        <!-- The demo and the file it writes to, side by side. The diff is driven
+             off the video's own currentTime, so the line lands on the frame the
+             edit lands. Rows are built in sections.js. -->
+        <div class="hero-demo" id="heroDemo">
+          <div class="shot hero-shot">
+            <div class="shot-bar"><span></span><span></span><span></span><em>caret</em></div>
+            <video class="shot-media" autoplay muted loop playsinline preload="metadata"
+                   poster="assets/video/hero-loop.jpg"
+                   aria-label="Picking a new colour on a live page, then dragging an image larger">
+              <source src="assets/video/hero-loop.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          <figure class="code" id="heroCode">
+            <figcaption class="code-bar">
+              <span class="code-dot"></span>
+              <em>.caret/pages/chair/index.tsx</em>
+            </figcaption>
+            <div class="code-body" id="codeBody"></div>
+            <div class="code-foot"><span class="code-note" id="codeNote"></span></div>
+          </figure>
         </div>
       </div>
-    </section>
-
-    <!-- ───────── WHY ───────── -->
-    <section id="why" class="why">
-      <h2 class="why-line" id="whyLine">
-        <span class="w">Your</span> <span class="w">design</span> <span class="w">is</span> <span class="w">the</span> <span class="w">code.</span>
-        <span class="w dim">Not</span> <span class="w dim">a</span> <span class="w dim">picture</span> <span class="w dim">of</span> <span class="w dim">it,</span>
-        <span class="w dim">not</span> <span class="w dim">a</span> <span class="w dim">file</span> <span class="w dim">that</span> <span class="w dim">drifts.</span>
-      </h2>
-      <p class="why-after">
-        It lives in your repo, in git, reviewable in a pull request. So a fix you make once is
-        still there tomorrow, instead of being regenerated away the next time you ask for something.
-      </p>
-    </section>
-
-    <!-- ───────── FEATURES ───────── -->
-    <section id="features" class="feat">
-      <div class="feat-head">
-        <h2 class="h2">Every one of these ends in your source file.</h2>
-        <p>The rail is the file. Each stop is another way to change it.</p>
-      </div>
-      <div class="tl" id="timeline"></div>
     </section>
 
     <!-- ───────── WHAT YOU STOP DOING ───────── -->
     <section class="stop">
       <div class="stop-inner">
-        <h2 class="h2 stop-head">What you stop doing.</h2>
+        <h2 class="h2 stop-head">You have built this screen twice.</h2>
         <ul class="stop-list">
           <li>
             <h3>Stop building the same screen twice.</h3>
@@ -115,15 +109,151 @@
       </div>
     </section>
 
-    <!-- ───────── AGENTS ───────── -->
+    <!-- ───────── WHY ───────── -->
+    <section id="why" class="why">
+      <h2 class="why-line" id="whyLine">
+        <span class="w">Your</span> <span class="w">design</span> <span class="w">is</span> <span class="w">the</span> <span class="w">code.</span>
+        <span class="w dim">Not</span> <span class="w dim">a</span> <span class="w dim">picture</span> <span class="w dim">of</span> <span class="w dim">it,</span>
+        <span class="w dim">not</span> <span class="w dim">a</span> <span class="w dim">file</span> <span class="w dim">that</span> <span class="w dim">drifts.</span>
+      </h2>
+      <p class="why-after">
+        It lives in your repo, in git, reviewable in a pull request. So a fix you make once is
+        still there tomorrow, instead of being regenerated away the next time you ask for something.
+      </p>
+
+      <div class="swap">
+        <div class="swap-col was">
+          <h3>Design lived <em>beside</em> the repo</h3>
+          <ul>
+            <li>A file in a design tool</li>
+            <li>Vector objects and layer trees</li>
+            <li>Versioned by whoever remembered</li>
+            <li>Rebuilt by hand to ship it</li>
+          </ul>
+        </div>
+        <div class="swap-arrow" aria-hidden="true"></div>
+        <div class="swap-col now">
+          <h3>Design lives <em>in</em> the repo</h3>
+          <ul>
+            <li>Its own directory, <code>.caret/</code></li>
+            <li>Real <code>.tsx</code> you can read and diff</li>
+            <li>Versioned by git, like everything else</li>
+            <li>Synced into your app when you say so</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── FEATURES ───────── -->
+    <section id="features" class="feat">
+      <div class="feat-head">
+        <h2 class="h2">Every one of these ends in a file in <code>.caret/</code>.</h2>
+        <p>The rail is the file. Each stop is another way to change it.</p>
+      </div>
+      <div class="tl" id="timeline"></div>
+    </section>
+
+    <!-- ───────── MECHANISM ───────── -->
+    <section id="how" class="how">
+      <div class="how-head">
+        <h2 class="h2">Same repo. Its own room.</h2>
+        <p>Design and app code are both tracked, in one project, and Caret only ever
+        writes to one of them on its own.</p>
+      </div>
+
+      <div class="how-grid">
+        <div class="tree" aria-label="Where Caret's files sit in a project">
+          <div class="tree-top">your-project/</div>
+          <ul class="tree-list">
+            <li class="t-own"><span class="t-name">.caret/</span><span class="t-note">the design layer &mdash; Caret writes here</span>
+              <ul>
+                <li><span class="t-name">pages/</span><span class="t-note">each page, as real React</span></li>
+                <li><span class="t-name">components/</span></li>
+                <li><span class="t-name">tokens/</span><span class="t-note">colour, type, spacing, radius</span></li>
+                <li><span class="t-name">flows/</span></li>
+                <li><span class="t-name">assets/</span></li>
+              </ul>
+            </li>
+            <li class="t-yours"><span class="t-name">src/</span><span class="t-note">your app &mdash; untouched until you sync</span></li>
+            <li class="t-yours"><span class="t-name">package.json</span></li>
+            <li class="t-yours"><span class="t-name">.git/</span><span class="t-note">tracks both</span></li>
+          </ul>
+        </div>
+
+        <ol class="how-steps">
+          <li>
+            <h3>It takes one directory.</h3>
+            <p>Open a folder and Caret creates <code>.caret/</code> inside it. Nothing else in
+            your project is read from or written to. Your build, your routes and your business
+            logic are not in the blast radius of an experiment.</p>
+          </li>
+          <li>
+            <h3>You design in code, not in objects.</h3>
+            <p>A page is a <code>.tsx</code> file. A token is a value. Clicking the canvas edits
+            those files, so every design decision arrives as a line someone can read in a diff
+            &mdash; and an agent can read it too, without an export step.</p>
+          </li>
+          <li>
+            <h3>Sync is a thing you choose.</h3>
+            <p>When a design is ready, Caret works out what changed since the last sync and your
+            agent makes the app match, in whatever framework you ship. It snapshots first, so
+            undo always works, and it never merges the two for you.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ───────── OBJECTIONS ───────── -->
     <section id="agents" class="agents">
       <div class="cloud">
         <div class="cloud-mid">
-          <h2 class="h2">Bring the agent you already pay for.</h2>
-          <p>Caret opens your design layer over MCP, so the agent in your terminal can read it
-          and write to it. Or work in Caret and sign in with a coding plan you already pay for.</p>
+          <h2 class="h2">Nothing new to subscribe to.</h2>
+          <div class="cloud-two">
+            <div>
+              <h3>Keep your harness</h3>
+              <p>Caret opens the design layer over MCP, so the agent already in your terminal
+              can read and write it. Claude Code and Codex are tested.</p>
+            </div>
+            <div>
+              <h3>Keep your plan</h3>
+              <p>Or work in Caret and sign in with a coding plan you are already paying for.
+              It arrives as a provider, not another bill.</p>
+            </div>
+          </div>
         </div>
       </div>
+      <p class="cloud-fine">
+        ChatGPT Plus, Pro and Go, Kimi For Coding, the Z.AI and Zhipu coding plans and GitHub
+        Copilot all sign in as themselves. Anthropic is API key only &mdash; Anthropic does not
+        permit Claude subscriptions in other tools, and we would rather say so here than after
+        you install.
+      </p>
+
+      <ul class="qa">
+        <li>
+          <h3>Do I have to build my app in Caret?</h3>
+          <p>No. Caret owns <code>.caret/</code>. The app is yours to write however you like
+          &mdash; your editor, your agent, your framework. Sync is the only door between them,
+          and you open it.</p>
+        </li>
+        <li>
+          <h3>Does it work with my stack?</h3>
+          <p>The design layer is React either way. Sync translates it into what you ship, so the
+          app side can be Next, Remix, Vue, Svelte, Rails &mdash; whatever is already there.</p>
+        </li>
+        <li>
+          <h3>Does my code leave my machine?</h3>
+          <p>Caret runs locally and has no account. Your files go to the model you signed in to
+          and nowhere else. Anonymous usage and crash data is the only thing we collect, and one
+          click turns it off.</p>
+        </li>
+        <li>
+          <h3>Anything to install first?</h3>
+          <p>Node.js &mdash; the live canvas runs a local dev server, and without Node it will sit
+          on &ldquo;preview loading&rdquo; while the rest of the app works fine. The LTS build is
+          enough.</p>
+        </li>
+      </ul>
     </section>
 
     <!-- ───────── DOWNLOAD ───────── -->

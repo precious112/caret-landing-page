@@ -7,12 +7,173 @@
 
 	const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)")
 
+	/* ── hero: the page, and the file it writes to ─────────────────────── */
+
+	/*
+	 * Every line below is the real file from the recording — test3's chair page,
+	 * .caret/pages/chair/index.tsx — at the line numbers it actually occupies.
+	 * The two edits in the video are a colour pick on the topbar CTA (line 49)
+	 * and a drag-resize of the gallery image (line 99). brand-500 is #d64b2a in
+	 * that project's theme, which is why the picked colour resolves to a token
+	 * rather than a hex; 825px is what the drag finished on, measured off the
+	 * last frame and confirmed against the file.
+	 *
+	 * The beat times are measured, not guessed: the green confirmation toast
+	 * turns on at 7.15s and 12.60s of hero-loop.mp4. The panel reads the
+	 * video's own currentTime, so the line lands on the frame the edit lands
+	 * and the loop re-arms itself with no bookkeeping.
+	 */
+	const CODE_ROWS = [
+		{ n: 46, code: `    </nav>` },
+		{ n: 47, code: `    <button` },
+		{ n: 48, code: `      data-caret-id="topbar-reserve-cta"` },
+		{
+			hunk: 1, n: 49,
+			del: `      className="rounded-full bg-neutral-900 px-6 …"`,
+			add: `      className="rounded-full bg-brand-500 px-6 …"`,
+			delHit: "bg-neutral-900", addHit: "bg-brand-500",
+		},
+		{ n: 50, code: `    >` },
+		{ n: 51, code: `      Reserve` },
+		{ n: 52, code: `    </button>` },
+		{ gap: true },
+		{ n: 94, code: `  <div className="md:col-span-8">` },
+		{ n: 95, code: `    <img` },
+		{ n: 96, code: `      data-caret-id="material-image"` },
+		{ n: 97, code: `      src="/caret-assets/fold-gallery.webp"` },
+		{ n: 98, code: `      alt="The Fold chair alone in a bright …"` },
+		{
+			hunk: 2, n: 99,
+			del: `      className="w-[345px] rounded-xl"`,
+			add: `      className="w-[825px] rounded-xl"`,
+			delHit: "w-[345px]", addHit: "w-[825px]",
+		},
+		{ n: 100, code: `    />` },
+		{ n: 101, code: `  </div>` },
+	]
+
+	const BEATS = [
+		{ hunk: 1, at: 6.9, note: "Matched brand-500 — bound to the token" },
+		{ hunk: 2, at: 12.6, note: "Edit applied" },
+	]
+	const LOOP = 15.9   // hero-loop.mp4, measured
+	const SETTLE = 2.2  // how long a hunk stays red/green before it becomes the file
+
+	const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+
+	// Tags, attributes and strings in one pass. Two sequential regex replaces
+	// would re-match the class= inside the spans the first one just inserted.
+	const paint = (line, hit) => {
+		const out = []
+		for (const part of line.split(/("(?:[^"\\]|\\.)*")/g)) {
+			if (!part) continue
+			if (part[0] === '"') {
+				let str = esc(part)
+				if (hit) str = str.split(esc(hit)).join(`<b class="t-hit">${esc(hit)}</b>`)
+				out.push(`<span class="t-str">${str}</span>`)
+			} else {
+				out.push(esc(part).replace(
+					/(&lt;\/?)([A-Za-z][\w.-]*)|([A-Za-z][\w-]*)(=)/g,
+					(m, lt, tag, attr, eq) => lt
+						? `<span class="t-pun">${lt}</span><span class="t-tag">${tag}</span>`
+						: `<span class="t-attr">${attr}</span><span class="t-pun">${eq}</span>`,
+				))
+			}
+		}
+		return out.join("")
+	}
+
+	const body = document.getElementById("codeBody")
+	const demo = document.getElementById("heroDemo")
+	if (body && demo) {
+		const row = (n, cls, html) =>
+			`<div class="ln ${cls}"><i>${n}</i><code>${html}</code></div>`
+
+		body.innerHTML = CODE_ROWS.map((r) => {
+			if (r.gap) return `<div class="ln ln-gap"><i></i><code></code></div>`
+			if (!r.hunk) return row(r.n, "", paint(r.code))
+			return `<div class="hunk" data-hunk="${r.hunk}">` +
+				row(r.n, "row-del", paint(r.del, r.delHit)) +
+				row(r.n, "row-add", paint(r.add, r.addHit)) +
+				`</div>`
+		}).join("")
+
+		const hunks = new Map([...body.querySelectorAll(".hunk")].map((h) => [+h.dataset.hunk, h]))
+		const note = document.getElementById("codeNote")
+		const video = demo.querySelector("video")
+
+		const apply = (t) => {
+			let showing = null
+			for (const b of BEATS) {
+				const el = hunks.get(b.hunk)
+				if (!el) continue
+				const firing = t >= b.at && t < b.at + SETTLE
+				el.classList.toggle("is-firing", firing)
+				el.classList.toggle("is-settled", t >= b.at + SETTLE)
+				if (firing) showing = b.note
+			}
+			if (note) {
+				note.classList.toggle("on", showing !== null)
+				if (showing !== null && note.textContent !== showing) note.textContent = showing
+			}
+		}
+
+		// Two windows side by side read as one object only if they are the same
+		// height, and the video's height is decided by its 1440x900 aspect
+		// against whatever the column is. Below the stacking breakpoint the
+		// panel goes back to its content height.
+		const code = document.getElementById("heroCode")
+		const shot = demo.querySelector(".hero-shot")
+		if (code && shot && "ResizeObserver" in window) {
+			const wide = window.matchMedia("(min-width: 901px)")
+			const fit = () => {
+				code.style.height = wide.matches ? shot.getBoundingClientRect().height + "px" : ""
+			}
+			new ResizeObserver(fit).observe(shot)
+			wide.addEventListener("change", fit)
+			fit()
+		}
+
+		if (REDUCED.matches) {
+			// No clock at all: show the file as it ends up, which is the point
+			// the animation was making.
+			for (const el of hunks.values()) el.classList.add("is-settled")
+		} else {
+			// Autoplay is not guaranteed — data saver and low power mode both
+			// refuse it — so the panel keeps a clock of its own to fall back on.
+			// Which clock is decided by the video itself rather than by sampling
+			// it on a timer: polling `paused`/`currentTime` at a fixed moment
+			// misreads a video that is loading but will play, and a panel that
+			// switches away on that misreading runs permanently out of step with
+			// a video that starts a second later. One `timeupdate` is proof the
+			// video's clock is real, and it also un-does the fallback if it
+			// arrives late.
+			let own = null
+			let live = false
+			if (video) video.addEventListener("timeupdate", () => { live = true; own = null }, { once: true })
+			setTimeout(() => { if (!live) own = performance.now() }, 4000)
+
+			let running = false
+			const tick = () => {
+				if (!running) return
+				apply(own === null ? video.currentTime : ((performance.now() - own) / 1000) % LOOP)
+				requestAnimationFrame(tick)
+			}
+			new IntersectionObserver((entries) => {
+				const on = entries.some((e) => e.isIntersecting)
+				if (on === running) return
+				running = on
+				if (on) requestAnimationFrame(tick)
+			}, { rootMargin: "120px" }).observe(demo)
+		}
+	}
+
 	/* ── feature rail ──────────────────────────────────────────────────── */
 
 	const FEATURES = [
 		{
 			n: "01", h: "Edit on the page", v: "f1-edit", w: "caret — index.tsx",
-			p: "Right-click any text, colour or image and change it there. Caret writes it into the real source file and the page reloads.",
+			p: "Right-click any text, colour or image and change it there. Caret writes it into the page's own file in <code>.caret/</code> and the page reloads.",
 			x: "Pick a colour and it checks it against your tokens. If one is close it writes the token, not a hex code, so changing your brand colour later changes everywhere that used it.",
 		},
 		{
@@ -160,6 +321,28 @@
 	 * borrowing one. Anything without a real published mark is left out
 	 * entirely rather than faked with a letter.
 	 */
+	/*
+	 * Coding agents and coding plans, in one ring. Two concentric rings were
+	 * tried and reverted: the copy has to sit inside the innermost ring, and an
+	 * inner ring small enough to read as its own group leaves no room for a
+	 * headline. The harness/plan distinction is carried by the card's two
+	 * columns instead, where it can be stated rather than implied.
+	 *
+	 * Not editors (VS Code, JetBrains are where you'd run one, not the thing
+	 * itself), not deprecated products, not general model vendors, not cloud
+	 * hosts.
+	 *
+	 * Two marks were cut for being WRONG rather than irrelevant: xAI's favicon
+	 * is the SpaceX X and is not Grok's mark, and Anthropic's corporate mark is
+	 * not Claude's. Where the right logo cannot be sourced the entry is dropped
+	 * rather than faked with a near-miss.
+	 *
+	 * `s` is a simple-icons monochrome path, recoloured with a CSS mask.
+	 * `img` is a brand asset that carries its own colour. Codex has its own
+	 * mark and it is NOT the OpenAI logo, so it ships as an asset rather than
+	 * borrowing one. Anything without a real published mark is left out
+	 * entirely rather than faked with a letter.
+	 */
 	const MARKS = [
 		{ n: "Claude Code",    s: "claude",        c: "#D97757" },
 		{ n: "Codex",          img: "codex.png" },
@@ -196,15 +379,13 @@
 
 			// The radius has to be read off the CARD, not hard-coded. At 900px
 			// the ring is wider than a phone, so every mark lands outside the
-			// card's overflow:hidden and the section renders empty. Narrow
-			// screens get a ring small enough that its top and bottom arcs sit
-			// inside the card instead of its left and right ones.
-			// The radius has to come from BOTH card dimensions. The effect only
-			// works when the ring is larger than the card's height (so the top
-			// and bottom arcs crop away) and smaller than its width (so the
-			// side clusters sit inside). Halfway between the two half-extents
-			// satisfies that at every width; keying off width alone leaves
-			// tablet sizes with five marks and a phone with none.
+			// card's overflow:hidden and the section renders empty. The radius
+			// has to come from BOTH card dimensions: the effect only works when
+			// the ring is larger than the card's height (so the top and bottom
+			// arcs crop away) and smaller than its width (so the side clusters
+			// sit inside). Halfway between the two half-extents satisfies that
+			// at every width; keying off width alone leaves tablet sizes with
+			// five marks and a phone with none.
 			const box = cloud.getBoundingClientRect()
 			const w = box.width
 			const r = Math.round(Math.min(360, Math.max(140, (w + box.height) / 4)))
@@ -217,7 +398,7 @@
 			// than set in CSS. A fixed max-width is what put a mark behind the
 			// paragraph at tablet sizes.
 			const mid = cloud.querySelector(".cloud-mid")
-			if (mid) mid.style.maxWidth = Math.max(260, Math.min(560, (r - tile / 2 - 26) * 2)) + "px"
+			if (mid) mid.style.maxWidth = Math.max(260, Math.min(620, (r - tile / 2 - 26) * 2)) + "px"
 
 			const host = document.createElement("div")
 			host.className = "rings"
