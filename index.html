@@ -80,30 +80,29 @@
       </div>
     </section>
 
-    <!-- ───────── WHAT YOU STOP DOING ───────── -->
-    <section class="stop">
+    <!-- ───────── PROBLEM ───────── -->
+    <section id="problem" class="stop problem">
       <div class="stop-inner">
-        <h2 class="h2 stop-head">You have built this screen twice.</h2>
+        <h2 class="h2 stop-head">Two sources of truth, and neither one is right.</h2>
         <ul class="stop-list">
           <li>
-            <h3>Stop building the same screen twice.</h3>
-            <p>Once in a design tool where it looked right, once in code where it had to work.
-            Caret deletes the first one.</p>
+            <h3>The mockup and the build stopped agreeing in week two.</h3>
+            <p>Nobody decided which one wins. Everyone just learned which file not to trust.</p>
           </li>
           <li>
-            <h3>Stop watching a fix get regenerated away.</h3>
-            <p>Your changes are files in git, not context in a chat window. Next week they are
-            still there.</p>
+            <h3>You fixed that spacing last month.</h3>
+            <p>It came back with the next generated change, and you fixed it again, and you are
+            not certain it will hold this time either.</p>
           </li>
           <li>
-            <h3>Stop describing a button in a paragraph.</h3>
-            <p>Point at the thing. Paint over the region you mean. The agent gets the exact
-            elements, not your best attempt at words.</p>
+            <h3>Describing a visual change takes longer than making it.</h3>
+            <p>Three sentences about the padding on the second card, and it still comes back
+            wrong, because words were never the right tool for pointing at something.</p>
           </li>
           <li>
-            <h3>Stop letting an agent invent your spacing.</h3>
-            <p>Caret writes your tokens into <code>AGENTS.md</code>, <code>CLAUDE.md</code> and
-            <code>.cursor/rules</code>, and keeps them current.</p>
+            <h3>The design file is true right up until the first hotfix.</h3>
+            <p>After that it is a picture of something that used to be true, and everyone in
+            the room knows it.</p>
           </li>
         </ul>
       </div>
@@ -151,6 +150,35 @@
         <p>The rail is the file. Each stop is another way to change it.</p>
       </div>
       <div class="tl" id="timeline"></div>
+    </section>
+
+    <!-- ───────── WHAT YOU STOP DOING ───────── -->
+    <section class="stop">
+      <div class="stop-inner">
+        <h2 class="h2 stop-head">What you stop doing.</h2>
+        <ul class="stop-list">
+          <li>
+            <h3>Stop building the same screen twice.</h3>
+            <p>Once in a design tool where it looked right, once in code where it had to work.
+            Caret deletes the first one.</p>
+          </li>
+          <li>
+            <h3>Stop watching a fix get regenerated away.</h3>
+            <p>Your changes are files in git, not context in a chat window. Next week they are
+            still there.</p>
+          </li>
+          <li>
+            <h3>Stop describing a button in a paragraph.</h3>
+            <p>Point at the thing. Paint over the region you mean. The agent gets the exact
+            elements, not your best attempt at words.</p>
+          </li>
+          <li>
+            <h3>Stop letting an agent invent your spacing.</h3>
+            <p>Caret writes your tokens into <code>AGENTS.md</code>, <code>CLAUDE.md</code> and
+            <code>.cursor/rules</code>, and keeps them current.</p>
+          </li>
+        </ul>
+      </div>
     </section>
 
     <!-- ───────── MECHANISM ───────── -->

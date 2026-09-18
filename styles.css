@@ -338,6 +338,14 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
   letter-spacing: -.018em; line-height: 1.18; margin-bottom: 12px;
 }
 .stop-list p { color: var(--muted); font-size: 16.5px; line-height: 1.6; max-width: 40ch; }
+
+/* The problem section borrows this layout but is describing the state the
+   reader is already in, not something Caret does, so it is drawn the way the
+   old model is drawn in the insight section: a dashed rule and no accent.
+   Identical styling in both places would read as two benefit lists. */
+.problem .stop-head { max-width: 20ch; }
+.problem .stop-list li { border-top-style: dashed; border-top-color: var(--line-soft); }
+.problem .stop-list h3 { color: var(--ink-2); }
 .stop-list code {
   font-size: 13.5px; background: rgba(22,35,61,.07); padding: 1px 5px; border-radius: 5px;
 }
