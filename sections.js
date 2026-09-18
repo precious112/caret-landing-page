@@ -57,7 +57,6 @@
 		{ hunk: 2, at: 12.6, note: "Edit applied" },
 	]
 	const LOOP = 15.9   // hero-loop.mp4, measured
-	const SETTLE = 2.2  // how long a hunk stays red/green before it becomes the file
 
 	const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
 
@@ -102,36 +101,25 @@
 		const note = document.getElementById("codeNote")
 		const video = demo.querySelector("video")
 
-		const apply = (t) => {
-			let showing = null
-			for (const b of BEATS) {
-				const el = hunks.get(b.hunk)
-				if (!el) continue
-				const firing = t >= b.at && t < b.at + SETTLE
-				el.classList.toggle("is-firing", firing)
-				el.classList.toggle("is-settled", t >= b.at + SETTLE)
-				if (firing) showing = b.note
-			}
-			if (note) {
-				note.classList.toggle("on", showing !== null)
-				if (showing !== null && note.textContent !== showing) note.textContent = showing
-			}
-		}
+		/*
+		 * The video HOLDS at each edit. Left to run, the loop has scrolled to the
+		 * next section by the time the red line has finished collapsing, so the
+		 * panel reads as lagging behind a video that has moved on. Freezing the
+		 * frame that shows the edit landing is also the truer picture: the write
+		 * is what the app is confirming on screen at that moment.
+		 *
+		 * A hold runs on wall-clock time rather than the media clock, because
+		 * the media clock is exactly what is stopped.
+		 */
+		const FIRE = 1500   // red and green both up, long enough to read the line
+		const SETTLE = 900  // the del row collapsing and the green tint fading out
 
-		// Two windows side by side read as one object only if they are the same
-		// height, and the video's height is decided by its 1440x900 aspect
-		// against whatever the column is. Below the stacking breakpoint the
-		// panel goes back to its content height.
-		const code = document.getElementById("heroCode")
-		const shot = demo.querySelector(".hero-shot")
-		if (code && shot && "ResizeObserver" in window) {
-			const wide = window.matchMedia("(min-width: 901px)")
-			const fit = () => {
-				code.style.height = wide.matches ? shot.getBoundingClientRect().height + "px" : ""
-			}
-			new ResizeObserver(fit).observe(shot)
-			wide.addEventListener("change", fit)
-			fit()
+		const state = BEATS.map(() => ({ phase: "idle", since: 0 }))
+
+		const clear = () => {
+			for (const s of state) { s.phase = "idle"; s.since = 0 }
+			for (const el of hunks.values()) el.classList.remove("is-firing", "is-settled")
+			if (note) note.classList.remove("on")
 		}
 
 		if (REDUCED.matches) {
@@ -153,17 +141,82 @@
 			if (video) video.addEventListener("timeupdate", () => { live = true; own = null }, { once: true })
 			setTimeout(() => { if (!live) own = performance.now() }, 4000)
 
+			// The fallback clock has to hold too, or the beats it is driving fire
+			// while the panel is still animating the previous one.
+			let paused = 0
+			let pausedAt = 0
+			const clock = () => own === null
+				? video.currentTime
+				: ((performance.now() - own - paused) / 1000) % LOOP
+
+			const stop = () => {
+				pausedAt = performance.now()
+				if (own === null && video) video.pause()
+			}
+			const start = () => {
+				if (own === null && video) video.play().catch(() => {})
+				else paused += performance.now() - pausedAt
+			}
+
+			let last = 0
 			let running = false
+
 			const tick = () => {
 				if (!running) return
-				apply(own === null ? video.currentTime : ((performance.now() - own) / 1000) % LOOP)
+				const now = performance.now()
+
+				const i = state.findIndex((s) => s.phase === "holding")
+				if (i !== -1) {
+					const b = BEATS[i]
+					const el = hunks.get(b.hunk)
+					const gone = now - state[i].since
+					if (gone >= FIRE) {
+						el.classList.remove("is-firing")
+						el.classList.add("is-settled")
+					}
+					if (gone >= FIRE + SETTLE) {
+						state[i].phase = "done"
+						if (note) note.classList.remove("on")
+						start()
+					}
+					requestAnimationFrame(tick)
+					return
+				}
+
+				const t = clock()
+				if (t < last) clear()   // the loop came round
+				last = t
+
+				for (let j = 0; j < BEATS.length; j++) {
+					const b = BEATS[j]
+					if (state[j].phase !== "idle" || t < b.at) continue
+					state[j].phase = "holding"
+					state[j].since = now
+					hunks.get(b.hunk)?.classList.add("is-firing")
+					if (note) { note.textContent = b.note; note.classList.add("on") }
+					stop()
+				}
 				requestAnimationFrame(tick)
 			}
+
 			new IntersectionObserver((entries) => {
 				const on = entries.some((e) => e.isIntersecting)
 				if (on === running) return
 				running = on
-				if (on) requestAnimationFrame(tick)
+				if (on) { last = clock(); requestAnimationFrame(tick) }
+				else {
+					// Scrolling away mid-hold would otherwise leave the video
+					// paused for good, since nothing is left running to resume it.
+					const i = state.findIndex((s) => s.phase === "holding")
+					if (i !== -1) {
+						state[i].phase = "done"
+						const el = hunks.get(BEATS[i].hunk)
+						el.classList.remove("is-firing")
+						el.classList.add("is-settled")
+						if (note) note.classList.remove("on")
+						start()
+					}
+				}
 			}, { rootMargin: "120px" }).observe(demo)
 		}
 	}

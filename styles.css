@@ -161,27 +161,42 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
 .hero-shot { width: 100%; }
 
 /* ---------- hero demo: the canvas and the file it writes to ----------
-   The video is 1440x900. The code panel matches its height rather than its
-   content, so the two windows line up at every width; the rows are centred
-   inside whatever height that leaves.
+   One window, not two. The page and the file it writes to are the same object,
+   so they share a frame and a title strip and are divided by a single rule —
+   the file reads as a sidebar on the canvas rather than a second screenshot
+   sitting next to it.
+
+   The columns stretch to a common height, which is why the code panel no
+   longer needs its height set from script: the video column is the taller of
+   the two at most widths, and `.code-body` absorbs whatever is left over. When
+   the code is the taller one the video centres in its column instead, so the
+   spare room reads as window padding rather than a gap at the bottom.
    -------------------------------------------------------------------- */
 .hero-demo {
   margin-top: clamp(40px, 5vw, 62px);
   display: grid; grid-template-columns: minmax(0, 1.34fr) minmax(0, .9fr);
-  gap: clamp(14px, 1.6vw, 22px); align-items: stretch;
-}
-.hero-demo .hero-shot { align-self: start; }
-
-.code {
-  display: flex; flex-direction: column; min-width: 0;
-  border-radius: 14px; overflow: hidden; background: var(--shot-bg);
+  align-items: stretch;
+  border-radius: 16px; overflow: hidden; background: var(--shot-bg);
   border: 1px solid rgba(0,0,0,.16);
   box-shadow: 0 50px 100px -40px rgba(20,24,40,.45), 0 8px 24px -12px rgba(0,0,0,.2);
 }
+.hero-demo .hero-shot,
+.hero-demo .code {
+  border: 0; border-radius: 0; box-shadow: none; background: transparent;
+  min-width: 0;
+}
+.hero-demo .hero-shot { display: flex; flex-direction: column; }
+.hero-demo .shot-media { margin: auto 0; }
+.hero-demo .code { border-left: 1px solid rgba(255,255,255,.09); }
+
+.code { display: flex; flex-direction: column; min-width: 0; }
+/* the two halves of the title strip have to agree on a height or the rule
+   between them steps */
+.shot-bar, .code-bar { height: 44px; padding-block: 0; flex-shrink: 0; }
+
 .code-bar {
-  display: flex; align-items: center; gap: 9px; padding: 12px 15px;
+  display: flex; align-items: center; gap: 9px; padding: 0 15px;
   background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(255,255,255,.07);
-  flex-shrink: 0;
 }
 .code-dot {
   width: 7px; height: 7px; border-radius: 50%; background: #3ecf7a; flex-shrink: 0;
@@ -685,7 +700,10 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
      its own line instead, where wrapping is what it should do anyway */
   .t-note { display: block; margin-left: 0; margin-top: 2px; }
   .qa { grid-template-columns: 1fr; }
+  /* stacked, the divider is the horizontal one */
   .hero-demo { grid-template-columns: 1fr; }
+  .hero-demo .code { border-left: 0; border-top: 1px solid rgba(255,255,255,.09); }
+  .hero-demo .shot-media { margin: 0; }
 }
 @media (max-width: 860px) {
   section { padding: 76px 22px; }
