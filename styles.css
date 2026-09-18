@@ -651,6 +651,9 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
   background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: 18px; overflow: hidden;
 }
 .qa li { background: var(--paper); padding: 26px 28px; }
+/* an odd last card would otherwise leave the grid's own background showing
+   through as an empty cell */
+.qa li:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .qa h3 {
   font-size: 16px; font-weight: 600; margin-bottom: 9px; color: var(--ink);
   padding-left: 22px; position: relative;
