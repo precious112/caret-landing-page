@@ -645,19 +645,6 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
 }
 
 /* ---------- objections ---------- */
-.cloud-two {
-  margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 30px; text-align: left;
-}
-.cloud-two h3 {
-  font-family: var(--sans); font-size: 12.5px; font-weight: 600; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--brand-deep); margin-bottom: 8px;
-  padding-top: 12px; border-top: 1px solid var(--line);
-}
-.cloud-two p { margin: 0 !important; font-size: 15px !important; line-height: 1.55; }
-.cloud-fine {
-  max-width: 660px; margin: 26px auto 0; text-align: center;
-  font-size: 14px; line-height: 1.6; color: var(--muted-2);
-}
 .qa {
   list-style: none; margin: 58px auto 0; max-width: 980px;
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px;
@@ -696,7 +683,6 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
   .footer-cols { grid-template-columns: 1fr 1fr; gap: 20px 28px; }
   .cloud { padding: 118px 20px; border-radius: 22px; }
   .cloud-mid .h2 { font-size: 27px; }
-  .cloud-two { grid-template-columns: 1fr; gap: 16px; }
   .footer-inner { grid-template-columns: 1fr; gap: 36px; }
 }
 @media (max-width: 980px) {

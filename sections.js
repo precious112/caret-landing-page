@@ -439,22 +439,31 @@
 			// has to come from BOTH card dimensions: the effect only works when
 			// the ring is larger than the card's height (so the top and bottom
 			// arcs crop away) and smaller than its width (so the side clusters
-			// sit inside). Halfway between the two half-extents satisfies that
-			// at every width; keying off width alone leaves tablet sizes with
-			// five marks and a phone with none.
+			// sit inside).
 			const box = cloud.getBoundingClientRect()
 			const w = box.width
-			const r = Math.round(Math.min(360, Math.max(140, (w + box.height) / 4)))
 			const tile = Math.round(Math.min(58, Math.max(44, w * 0.062)))
+
+			// The copy takes its width from the CARD, and the ring is then sized
+			// to clear it. Deriving the copy from the radius instead needs a
+			// floor to stay readable on a phone, and that floor is what puts a
+			// mark behind the text: shortening this card by two paragraphs was
+			// enough to do it, with no change to the ring at all.
+			//
+			// A mark overlaps the copy only if it is inside the box on BOTH
+			// axes, and r*cos and r*sin cannot both be small at once, so every
+			// mark clears once the radius passes the box's own half-diagonal
+			// plus a tile. Measured, the card-derived radius was short of that
+			// at every width, phone worst.
+			const mid = cloud.querySelector(".cloud-mid")
+			if (mid) mid.style.maxWidth = Math.min(620, Math.max(240, w - 52)) + "px"
+			const copy = mid ? mid.getBoundingClientRect() : { width: 0, height: 0 }
+			const pad = tile / 2 + 10
+			const clear = Math.hypot(copy.width / 2 + pad, copy.height / 2 + pad)
+
+			const r = Math.round(Math.max(140, Math.min(420, Math.max((w + box.height) / 4, clear + 1))))
 			const SIZE = r * 2 + tile + 40
 			const centre = SIZE / 2
-
-			// The copy has to fit inside the ring's left and right marks, and
-			// the radius moves with the card, so the width is derived rather
-			// than set in CSS. A fixed max-width is what put a mark behind the
-			// paragraph at tablet sizes.
-			const mid = cloud.querySelector(".cloud-mid")
-			if (mid) mid.style.maxWidth = Math.max(260, Math.min(620, (r - tile / 2 - 26) * 2)) + "px"
 
 			const host = document.createElement("div")
 			host.className = "rings"
