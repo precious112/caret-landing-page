@@ -411,7 +411,9 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
 .download { text-align: center; }
 .dl-title { font-family: var(--serif); font-weight: 500; font-size: clamp(30px,4.4vw,52px); letter-spacing: -.02em; }
 .dl-sub { color: var(--muted); max-width: 480px; margin: 14px auto 32px; font-size: 17px; }
-.dl-primary-wrap { margin-bottom: 26px; }
+/* the button closes the section now that the platforms sit above it, so the
+   margin moved to the top and the alt line keeps its own gap from the grid */
+.dl-primary-wrap { margin-top: 34px; }
 .dl-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .dl-opt .os {
   width: 20px; height: 20px; flex-shrink: 0; background: var(--ink);
