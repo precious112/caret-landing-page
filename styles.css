@@ -162,8 +162,8 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
 
 /* ---------- hero demo: the canvas and the file it writes to ----------
    One window, not two. The page and the file it writes to are the same object,
-   so they share a frame and a title strip and are divided by a single rule —
-   the file reads as a sidebar on the canvas rather than a second screenshot
+   so they share a frame and a title strip and are divided by a single rule.
+   The file reads as a sidebar on the canvas rather than a second screenshot
    sitting next to it.
 
    The columns stretch to a common height, which is why the code panel no

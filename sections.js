@@ -10,8 +10,8 @@
 	/* ── hero: the page, and the file it writes to ─────────────────────── */
 
 	/*
-	 * Every line below is the real file from the recording — test3's chair page,
-	 * .caret/pages/chair/index.tsx — at the line numbers it actually occupies.
+	 * Every line below is the real file from the recording: test3's chair page,
+	 * .caret/pages/chair/index.tsx, at the line numbers it actually occupies.
 	 * The two edits in the video are a colour pick on the topbar CTA (line 49)
 	 * and a drag-resize of the gallery image (line 99). brand-500 is #d64b2a in
 	 * that project's theme, which is why the picked colour resolves to a token
@@ -52,6 +52,9 @@
 		{ n: 101, code: `  </div>` },
 	]
 
+	// The notes are transcriptions of what the app puts on screen at that
+	// moment, not copy: the same strings are legible in the video beside them,
+	// so they are quoted exactly, em dash and all.
 	const BEATS = [
 		{ hunk: 1, at: 6.9, note: "Matched brand-500 — bound to the token" },
 		{ hunk: 2, at: 12.6, note: "Edit applied" },
@@ -127,8 +130,8 @@
 			// the animation was making.
 			for (const el of hunks.values()) el.classList.add("is-settled")
 		} else {
-			// Autoplay is not guaranteed — data saver and low power mode both
-			// refuse it — so the panel keeps a clock of its own to fall back on.
+			// Autoplay is not guaranteed, since data saver and low power mode
+			// both refuse it, so the panel keeps a clock of its own to fall back on.
 			// Which clock is decided by the video itself rather than by sampling
 			// it on a timer: polling `paused`/`currentTime` at a fixed moment
 			// misreads a video that is loading but will play, and a panel that
@@ -225,27 +228,27 @@
 
 	const FEATURES = [
 		{
-			n: "01", h: "Edit on the page", v: "f1-edit", w: "caret — index.tsx",
+			n: "01", h: "Edit on the page", v: "f1-edit", w: "caret · index.tsx",
 			p: "Right-click any text, colour or image and change it there. Caret writes it into the page's own file in <code>.caret/</code> and the page reloads.",
 			x: "Pick a colour and it checks it against your tokens. If one is close it writes the token, not a hex code, so changing your brand colour later changes everywhere that used it.",
 		},
 		{
-			n: "02", h: "Ask for the harder ones", v: "f2-describe", w: "caret — overlay",
+			n: "02", h: "Ask for the harder ones", v: "f2-describe", w: "caret · overlay",
 			p: "Some things are too fiddly to click. Paint over the part of the page you mean and say what you want.",
 			x: "Your agent gets the exact elements you marked, so it does not have to guess which bit you meant.",
 		},
 		{
-			n: "03", h: "Three versions at once", v: "f3-takes", w: "caret — playground",
+			n: "03", h: "Three versions at once", v: "f3-takes", w: "caret · playground",
 			p: "When you do not know what you want yet, ask for a few. Caret builds them side by side, live, and you keep one.",
 			x: "Picking leaves an undo step, so changing your mind costs nothing.",
 		},
 		{
-			n: "04", h: "Make the assets too", v: "f4-assets", w: "caret — assets",
+			n: "04", h: "Make the assets too", v: "f4-assets", w: "caret · assets",
 			p: "Say what the thing is and Caret makes it. Logos as real vector files, photographs, textures, animated backgrounds written as code.",
 			x: "How it is lit, framed and coloured comes from your tokens, so it matches the rest of your work.",
 		},
 		{
-			n: "05", h: "Your whole product", v: "f5-canvas", w: "caret — canvas",
+			n: "05", h: "Your whole product", v: "f5-canvas", w: "caret · canvas",
 			p: "Every page on one canvas. The page you are working on runs as live, interactive React. The rest stay fast as thumbnails.",
 			x: "Switch viewport presets to check how it holds up across screens.",
 		},

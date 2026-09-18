@@ -1,6 +1,6 @@
 # caret-landing-page
 
-Marketing landing page for **[Caret](https://github.com/precious112/caret-desktop)** — a design
+Marketing landing page for **[Caret](https://github.com/precious112/caret-desktop)**, a design
 layer that lives in your repo.
 
 Plain static site (HTML + CSS + vanilla JS), no build step. Auto-deployed to Netlify on every
@@ -27,7 +27,7 @@ The order of sections is the argument, and it is worth keeping in that order:
 > Hero → Problem → Insight → Solution → **Mechanism** → Objections → Download
 
 The mechanism section (`#how`) is the one that is easy to drop and must not be. Caret's design
-layer lives in `.caret/`, *beside* the app rather than inside it — same repo, both tracked, but
+layer lives in `.caret/`, *beside* the app rather than inside it: same repo, both tracked, but
 Caret does not write to your app on its own. Copy that says Caret "edits your real code" or that
 changes "land in the files you ship" describes a different product and scares off exactly the
 person with a production codebase. Say **repo**, not app source.
@@ -42,7 +42,7 @@ of the gallery image (line 99, `w-[345px]` → `w-[825px]`).
 
 The animation is driven off the video's own `currentTime`, so it lands on the frame the edit
 lands and the loop re-arms itself. The beat times in `sections.js` (`BEATS`) were measured off
-the file by sampling the green confirmation toast, not eyeballed — **if you ever re-cut
+the file by sampling the green confirmation toast, not eyeballed. **If you ever re-cut
 `hero-loop.mp4`, re-measure them and update `LOOP` too.**
 
 ## Local preview
