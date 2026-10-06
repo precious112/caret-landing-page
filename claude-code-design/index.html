@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Claude Code and design: frontend-design skill, Figma MCP, tokens</title>
+  <meta name="description" content="Anthropic's frontend-design skill, Figma MCP with Claude Code, Claude Code to Figma and Claude Design: what each does, and how to make design decisions stick." />
+  <link rel="canonical" href="https://caretai.cloud/claude-code-design/" />
+  <link rel="icon" type="image/png" href="/assets/caret-logo.png" />
+  <meta property="og:title" content="Claude Code and design: frontend-design skill, Figma MCP, tokens" />
+  <meta property="og:description" content="Anthropic's frontend-design skill, Figma MCP with Claude Code, Claude Code to Figma and Claude Design: what each does, and how to make design decisions stick." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://caretai.cloud/claude-code-design/" />
+  <meta property="og:image" content="https://caretai.cloud/assets/guides/claude-code.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/page.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Designing with Claude Code",
+        "description": "Anthropic's frontend-design skill, Figma MCP with Claude Code, Claude Code to Figma and Claude Design: what each does, and how to make design decisions stick.",
+        "datePublished": "2026-10-06",
+        "dateModified": "2026-10-06",
+        "mainEntityOfPage": "https://caretai.cloud/claude-code-design/",
+        "image": "https://caretai.cloud/assets/guides/claude-code.webp",
+        "author": { "@type": "Organization", "name": "Caret", "url": "https://caretai.cloud/" },
+        "publisher": { "@type": "Organization", "name": "Caret", "logo": { "@type": "ImageObject", "url": "https://caretai.cloud/assets/caret-logo.png" } }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Caret", "item": "https://caretai.cloud/" },
+          { "@type": "ListItem", "position": 2, "name": "Claude Code and design", "item": "https://caretai.cloud/claude-code-design/" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="page">
+  <!-- ───────── NAV ───────── -->
+  <header class="nav">
+    <a class="brand" href="/" aria-label="Caret home">
+      <span class="logo-chip"><img src="/assets/caret-logo.png" alt="" /></span>
+      <span class="brand-name">Caret</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#how">How it works</a>
+      <a href="/design-to-code/">Design to code</a>
+      <a href="/claude-code-design/">Claude Code</a>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <a class="btn btn-ink btn-sm" href="/#download">Download</a>
+  </header>
+
+  <main>
+    <header class="art-head">
+      <p class="crumbs"><a href="/">Caret</a> / Guides</p>
+      <h1>Designing with Claude Code</h1>
+      <p class="art-lede">&ldquo;Claude and design&rdquo; means three different things in 2026: a skill that
+      improves Claude&rsquo;s taste, Figma&rsquo;s MCP server that moves designs in and out of Figma, and
+      Anthropic&rsquo;s own Claude Design. Each solves part of the problem. None of them, on their own,
+      make a design decision still be true next week.</p>
+      <p class="art-meta">Updated 6 October 2026 &middot; 10 min read &middot; Caret is not affiliated with Anthropic or Figma.</p>
+    </header>
+
+    <figure class="art-banner">
+      <img src="/assets/guides/claude-code.webp" width="2000" height="1152" alt="The Claude Code welcome screen in a terminal window" />
+    </figure>
+
+    <article class="prose">
+      <nav class="toc" aria-label="On this page">
+        <b>On this page</b>
+        <ol>
+          <li><a href="#skill">The frontend-design skill</a></li>
+          <li><a href="#figma-mcp">Figma MCP with Claude Code</a></li>
+          <li><a href="#to-figma">Claude Code to Figma</a></li>
+          <li><a href="#claude-design">Claude Design</a></li>
+          <li><a href="#drift">The part none of them cover</a></li>
+          <li><a href="#caret">Claude Code with a design layer</a></li>
+          <li><a href="#faq">Questions</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="skill">The frontend-design skill</h2>
+      <p>Anthropic published <code>frontend-design</code> in November 2025, alongside a post called
+      <a href="https://claude.com/blog/improving-frontend-design-through-skills" rel="noopener">Improving frontend design through Skills</a>.
+      The post names the problem directly: models drift toward the &ldquo;safe design choices&rdquo; that
+      dominate their training data, which is how every generated landing page ended up with the same
+      fonts, a purple gradient on white, and very little motion.</p>
+      <p>The skill is a set of instructions Claude loads when it builds UI. It lives in Anthropic&rsquo;s
+      <a href="https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design" rel="noopener">claude-code repo</a>
+      as a plugin, with the same skill in
+      <a href="https://github.com/anthropics/skills/tree/main/skills/frontend-design" rel="noopener">anthropics/skills</a>.
+      To install it from inside Claude Code:</p>
+<pre><code>/plugin install frontend-design@claude-plugins-official</code></pre>
+      <p>The official marketplace is added automatically the first time you start an interactive Claude Code session, so that is
+      the whole setup (<a href="https://code.claude.com/docs/en/discover-plugins" rel="noopener">docs</a>).</p>
+
+      <h3>It has been rewritten since most guides were written</h3>
+      <p>Most articles that rank for this quote the original version, which banned Inter, Roboto and
+      purple gradients by name. The skill was rewritten in June 2026 and updated again in September. The
+      current text is less a list of bans and more a working method. It asks Claude to &ldquo;make
+      deliberate, opinionated choices about palette, typography, and layout that are specific to this
+      brief,&rdquo; to plan first as &ldquo;a compact token system&rdquo; before building, and to
+      &ldquo;spend your boldness in one place.&rdquo; It also lists the looks AI-generated design now
+      clusters around, including, pointedly, a cream background with a serif and a terracotta accent.</p>
+      <p>It works. Output from Claude with the skill is noticeably less generic. But notice what it does:
+      it shapes each generation. The token system it plans lives in that conversation. Next session,
+      Claude plans again.</p>
+
+      <h2 id="figma-mcp">Figma MCP with Claude Code</h2>
+      <p>If the design already exists in Figma, Figma&rsquo;s MCP server lets Claude Code read it: the
+      layer structure, variables, screenshots, and Code Connect mappings to your real components. There
+      are two servers.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Remote server</th><th>Desktop server</th></tr></thead>
+          <tbody>
+            <tr><th>Setup in Claude Code</th><td><code>claude plugin install figma@claude-plugins-official</code></td><td><code>claude mcp add --transport http figma-desktop http://127.0.0.1:3845/mcp</code></td></tr>
+            <tr><th>Who can use it</th><td>All seats and plans</td><td>Dev or Full seat on a paid plan, with the Figma desktop app</td></tr>
+            <tr><th>Notable extras</th><td>Writing to the canvas, including Claude Code to Figma</td><td>Prompting from your current selection in Figma</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fine">Sources: Figma&rsquo;s <a href="https://help.figma.com/hc/en-us/articles/39888612464151" rel="noopener">setup guide</a>,
+      <a href="https://help.figma.com/hc/en-us/articles/32132100833559" rel="noopener">plan details</a> and
+      <a href="https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/" rel="noopener">tools reference</a>, checked 6 October 2026.</p>
+      <p>A few things worth knowing before you rely on it:</p>
+      <ul>
+        <li><strong>Calls are rate limited.</strong> On the free Starter plan, and for View and Collab
+        seats on any plan, that is 20 calls a month; Dev and Full seats on paid plans get daily limits,
+        from 200 to 600 a day depending on the plan (<a href="https://developers.figma.com/docs/figma-mcp-server/rate-limits-access/" rel="noopener">details</a>).</li>
+        <li><strong>Output defaults to React and Tailwind.</strong> You can steer it to other stacks in
+        the prompt.</li>
+        <li><strong>The main tool is <code>get_design_context</code>.</strong> <code>get_variable_defs</code>
+        pulls the variables (your tokens) used in a selection, and
+        <code>create_design_system_rules</code> generates a rules file for your agent. That last one is
+        worth running once.</li>
+        <li><strong>Results depend on the file.</strong> Well-structured frames with auto layout and
+        Code Connect come through far better than loose ones, and Figma&rsquo;s own forum has threads from
+        people whose results came back with the
+        <a href="https://forum.figma.com/report-a-problem-6/figma-mcp-can-t-get-good-results-have-tried-many-things-41861" rel="noopener">fonts and colours wrong</a>.</li>
+      </ul>
+
+      <h2 id="to-figma">Claude Code to Figma</h2>
+      <p>The other direction arrived on 17 February 2026. Figma&rsquo;s
+      <a href="https://www.figma.com/blog/introducing-claude-code-to-figma/" rel="noopener">Claude Code to Figma</a>
+      captures a running UI from your browser (localhost, staging or production) and turns it into
+      editable Figma frames. You ask Claude Code to send it to Figma, and Figma&rsquo;s remote MCP server
+      does the capture.</p>
+      <p>It is useful for getting a built screen in front of a designer. It is also a snapshot. The
+      frames do not carry your logic, and once the code moves on, the Figma copy is a picture of
+      something that used to be true. Builder.io&rsquo;s
+      <a href="https://www.builder.io/blog/claude-code-to-figma" rel="noopener">write-up</a> is blunt about
+      the round trip: once you add business logic to the generated code, design updates from Figma mean
+      redoing those changes.</p>
+
+      <h2 id="claude-design">Claude Design</h2>
+      <p>On 17 April 2026 Anthropic Labs launched
+      <a href="https://www.anthropic.com/news/claude-design-anthropic-labs" rel="noopener">Claude Design</a>,
+      a research preview for Pro, Max, Team and Enterprise plans. It makes designs, prototypes, slides
+      and one-pagers that you refine by chatting, commenting, editing directly and adjusting sliders.
+      During onboarding it can build a design system from your codebase and design files, and it can
+      export to Canva, PDF, PPTX or HTML, or package the work as a handoff to Claude Code.</p>
+      <p>It is a strong tool for exploring and presenting. The handoff is still a handoff: the design
+      lives in Claude Design, and Claude Code receives a bundle to build from. We compare it with Figma
+      in <a href="/claude-design-vs-figma/">Claude Design vs Figma</a>.</p>
+
+      <h2 id="drift">The part none of them cover</h2>
+      <p>Put the three together and you can generate tasteful UI, pull a Figma design into code, and
+      push code back into Figma. What is still missing is persistence. Three things go wrong in
+      practice:</p>
+      <ul>
+        <li><strong>Decisions live in the conversation.</strong> The skill makes Claude choose well
+        each time. It does not make Claude choose the <em>same</em> thing each time.</li>
+        <li><strong><code>CLAUDE.md</code> is advice, not enforcement.</strong> Anthropic&rsquo;s
+        <a href="https://code.claude.com/docs/en/memory" rel="noopener">memory docs</a> say Claude
+        &ldquo;treats them as context, not enforced configuration,&rdquo; and that specific, concise
+        instructions are followed more consistently. A rules file written once and left to go stale is
+        confidently wrong about your brand colour.</li>
+        <li><strong>Two copies drift.</strong> Whenever the design lives in one place and the code in
+        another, someone fixes one of them, and from then on you have two sources of truth.</li>
+      </ul>
+
+      <h2 id="caret">Claude Code with a design layer</h2>
+      <p>Caret is a free, open-source desktop app that takes a different route: the design lives in your
+      repo, as real React, in a <code>.caret/</code> folder beside your app. Its pages render live on a
+      canvas you can click and edit, and every change is a line in a file that git tracks.</p>
+      <p>For a Claude Code user, three parts matter.</p>
+      <h3>1. Your tokens are always in <code>CLAUDE.md</code>, and always current</h3>
+      <p>Caret writes your colour, type, spacing and radius into <code>CLAUDE.md</code> (and
+      <code>AGENTS.md</code> and Cursor&rsquo;s rules) inside a marked block, and rewrites that block every
+      time a token changes. Whatever you wrote in <code>CLAUDE.md</code> yourself stays where it is. That
+      matters because Claude Code reads <code>CLAUDE.md</code> at the start of every session, and if a
+      project has both files it reads only <code>CLAUDE.md</code>, so the tokens have to be there.</p>
+      <h3>2. Design decisions are files, not chat history</h3>
+      <p>A page is a <code>.tsx</code> file. A colour you picked is a token reference on a line in that
+      file. Next week it is still there, and a reviewer can see it in a pull request.</p>
+      <h3>3. Claude Code can do the sync, over MCP</h3>
+      <p>Caret runs a local MCP server for each open project. Connect Claude Code with the command Caret
+      generates for you (the port and token change every launch):</p>
+<pre><code>claude mcp add --transport http caret &lt;URL&gt; --header "Authorization: Bearer &lt;TOKEN&gt;"</code></pre>
+      <p>Claude Code can then read your pages and tokens, see what changed in the design since the last
+      sync, and make your app match, in whatever framework it uses. It tells Caret when it is done, and
+      Caret moves its bookmark forward. The Claude Code connection has been tested against the real CLI
+      (<a href="https://github.com/precious112/caret-desktop/blob/main/docs/connect-an-agent.md" rel="noopener">setup guide</a>).</p>
+      <div class="callout">
+        <p><strong>Using a Claude subscription.</strong> Anthropic&rsquo;s
+        <a href="https://code.claude.com/docs/en/legal-and-compliance" rel="noopener">terms</a> do not let
+        third-party apps route requests through Pro or Max plans, so inside Caret, Claude is available by
+        API key only. If your Claude access is a subscription, connect Claude Code over MCP and hand it
+        the sync: that runs in Claude Code itself, signed in your usual way. Designing inside Caret then
+        runs on whichever other provider you connect, such as a ChatGPT plan, GitHub Copilot or an API key.</p>
+      </div>
+      <p>MCP runs one way here. Claude Code can call into Caret, but Caret cannot push work out to Claude
+      Code, so the canvas work happens in Caret and the sync is the part you hand over.</p>
+
+      <h3>Does it replace the skill or Figma MCP?</h3>
+      <p>No, and it does not need to. The frontend-design skill still improves what Claude generates,
+      inside Caret&rsquo;s pages as much as anywhere. If your team designs in Figma, Figma MCP is still
+      the way to read those files. Caret is the part that keeps the result in your repo.</p>
+
+      <h2 id="faq">Questions</h2>
+      <ul class="faq">
+        <li>
+          <h3>What is the Claude frontend design skill?</h3>
+          <p>An official Anthropic skill for Claude Code that guides how Claude designs UI: deliberate
+          typography and palette, a plan before building, and avoiding the patterns AI-generated design
+          clusters around. Install it with <code>/plugin install frontend-design@claude-plugins-official</code>.</p>
+        </li>
+        <li>
+          <h3>Do I need a paid Figma plan to use Figma MCP with Claude Code?</h3>
+          <p>No. The remote server is available on all seats and plans, but calls are rate limited: 20 a month
+          on the Starter plan or on a View or Collab seat. The desktop server needs a Dev or Full seat on a paid plan.</p>
+        </li>
+        <li>
+          <h3>Can Claude Code send designs to Figma?</h3>
+          <p>Yes, through Figma&rsquo;s remote MCP server and its Claude Code to Figma feature, which
+          turns a running UI into editable frames.</p>
+        </li>
+        <li>
+          <h3>Does Caret need Figma?</h3>
+          <p>No. Caret&rsquo;s pages are React files in your repo. There is no design file to export from.</p>
+        </li>
+      </ul>
+    </article>
+
+    <section class="art-cta">
+      <div class="art-cta-card">
+        <h2>Give Claude Code a design it can't forget.</h2>
+        <p>Caret keeps your pages as real React and your tokens in CLAUDE.md, in your repo. Design on its canvas, then hand the sync to Claude Code over MCP.</p>
+        <div class="hero-cta">
+          <button class="btn btn-ink btn-lg btn-cta" id="dlPrimary" data-url="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-macOS-arm64.zip">Download for macOS</button>
+          <a class="btn btn-line btn-lg" href="/#download">All platforms</a>
+        </div>
+        <p class="fine" style="margin-top:16px">Free, Apache-2.0, no account. macOS, Windows and Linux. Needs Node.js for the live canvas.</p>
+      </div>
+    </section>
+
+    <section class="related">
+      <h2>Keep reading</h2>
+      <ul>
+        <li><a href="/claude-design-vs-figma/"><b>Claude Design vs Figma</b><span>Where each fits, and where Caret does</span></a></li>
+        <li><a href="/design-tokens/"><b>What are design tokens?</b><span>Definitions, tiers, formats, and agents</span></a></li>
+        <li><a href="/cursor-visual-editor/"><b>A visual editor for Cursor</b><span>What Design Mode does, and what it doesn't</span></a></li>
+        <li><a href="/design-to-code/"><b>Design to code, in your repo</b><span>How design becomes code, and back</span></a></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- ───────── FOOTER ───────── -->
+  <footer class="footer">
+    <canvas class="footer-shader" id="footShader" aria-hidden="true"></canvas>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-chip"><img src="/assets/caret-logo.png" alt="" /></span>
+        <span class="brand-name">Caret</span>
+        <p>A design layer that lives in your repo.<br />Free forever, Apache-2.0.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#agents">Works with</a>
+          <a href="/#download">Download</a>
+          <a href="https://github.com/precious112/caret-desktop#readme" target="_blank" rel="noopener">Read me first</a>
+          <a href="https://github.com/precious112/caret-desktop/blob/main/docs/connect-an-agent.md" target="_blank" rel="noopener">Connect your agent</a>
+        </div>
+        <div>
+          <h4>Guides</h4>
+          <a href="/design-to-code/">Design to code</a>
+          <a href="/claude-code-design/">Claude Code and design</a>
+          <a href="/cursor-visual-editor/">A visual editor for Cursor</a>
+          <a href="/design-tokens/">What are design tokens?</a>
+        </div>
+        <div>
+          <h4>Compare</h4>
+          <a href="/figma-alternative/">Figma alternatives</a>
+          <a href="/claude-design-vs-figma/">Claude Design vs Figma</a>
+          <a href="/figma-make-alternative/">Figma Make alternatives</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-fine">
+      <span>&copy; 2026 Caret</span>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">Source</a>
+      <a href="https://github.com/precious112/caret-desktop/blob/main/LICENSE" target="_blank" rel="noopener">Apache-2.0</a>
+      <a href="https://github.com/precious112/caret-desktop/blob/main/docs/telemetry.md" target="_blank" rel="noopener">What we collect</a>
+    </div>
+    <div class="footer-mark" aria-hidden="true">Caret<i></i></div>
+  </footer>
+
+  <!-- ───────── STAR MODAL ───────── -->
+  <div class="modal-overlay" id="starModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="starTitle">
+      <button class="modal-close" id="starClose" aria-label="Close">×</button>
+      <div class="modal-star">★</div>
+      <h3 id="starTitle">Your download is starting</h3>
+      <p>Caret is free and open source. If it's useful to you, a GitHub star genuinely helps it grow.</p>
+      <div class="modal-btns">
+        <a class="btn btn-ink" id="starGo" href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">★ Star on GitHub</a>
+        <button class="btn btn-line" id="starLater">Maybe later</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/hero-shader.js"></script>
+  <script src="/main.js"></script>
+</body>
+</html>

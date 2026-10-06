@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cursor visual editor: Design Mode, and a direct-edit option</title>
+  <meta name="description" content="What Cursor's Design Mode does in 2026, why the direct CSS panel went away, and how to edit UI visually beside Cursor with Caret, free and open source." />
+  <link rel="canonical" href="https://caretai.cloud/cursor-visual-editor/" />
+  <link rel="icon" type="image/png" href="/assets/caret-logo.png" />
+  <meta property="og:title" content="Cursor visual editor: Design Mode, and a direct-edit option" />
+  <meta property="og:description" content="What Cursor's Design Mode does in 2026, why the direct CSS panel went away, and how to edit UI visually beside Cursor with Caret, free and open source." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://caretai.cloud/cursor-visual-editor/" />
+  <meta property="og:image" content="https://caretai.cloud/assets/guides/cursor.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/page.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "A visual editor for Cursor, and what changed in 2026",
+        "description": "What Cursor's Design Mode does in 2026, why the direct CSS panel went away, and how to edit UI visually beside Cursor with Caret, free and open source.",
+        "datePublished": "2026-10-06",
+        "dateModified": "2026-10-06",
+        "mainEntityOfPage": "https://caretai.cloud/cursor-visual-editor/",
+        "image": "https://caretai.cloud/assets/guides/cursor.webp",
+        "author": { "@type": "Organization", "name": "Caret", "url": "https://caretai.cloud/" },
+        "publisher": { "@type": "Organization", "name": "Caret", "logo": { "@type": "ImageObject", "url": "https://caretai.cloud/assets/caret-logo.png" } }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Caret", "item": "https://caretai.cloud/" },
+          { "@type": "ListItem", "position": 2, "name": "Cursor visual editor", "item": "https://caretai.cloud/cursor-visual-editor/" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="page">
+  <!-- ───────── NAV ───────── -->
+  <header class="nav">
+    <a class="brand" href="/" aria-label="Caret home">
+      <span class="logo-chip"><img src="/assets/caret-logo.png" alt="" /></span>
+      <span class="brand-name">Caret</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#how">How it works</a>
+      <a href="/design-to-code/">Design to code</a>
+      <a href="/claude-code-design/">Claude Code</a>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <a class="btn btn-ink btn-sm" href="/#download">Download</a>
+  </header>
+
+  <main>
+    <header class="art-head">
+      <p class="crumbs"><a href="/">Caret</a> / Guides</p>
+      <h1>A visual editor for Cursor, and what changed in 2026</h1>
+      <p class="art-lede">Cursor has had two kinds of visual editing. One let you drag a slider and change
+      a colour yourself. That panel has been removed. The one left is Design Mode, where you point at the
+      page and the agent makes the change. Here is what each does, and what to use if you want to
+      edit directly.</p>
+      <p class="art-meta">Updated 6 October 2026 &middot; 7 min read &middot; Caret is not affiliated with Cursor or Anysphere.</p>
+    </header>
+
+    <figure class="art-banner">
+      <img src="/assets/guides/cursor.webp" width="2000" height="1152" alt="The Cursor logo on a phone screen" />
+    </figure>
+
+    <article class="prose">
+      <nav class="toc" aria-label="On this page">
+        <b>On this page</b>
+        <ol>
+          <li><a href="#history">The short history</a></li>
+          <li><a href="#design-mode">What Design Mode does today</a></li>
+          <li><a href="#gap">What people are missing</a></li>
+          <li><a href="#caret">Editing directly, beside Cursor</a></li>
+          <li><a href="#setup">Using Caret with Cursor</a></li>
+          <li><a href="#faq">Questions</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="history">The short history</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>When</th><th>What changed</th></tr></thead>
+          <tbody>
+            <tr><th>10 Dec 2025</th><td><a href="https://cursor.com/changelog/2-2" rel="noopener">Cursor 2.2</a> adds a layout and style editor to the built-in browser: a sidebar and component tree, drag to rearrange, sliders and colour pickers for styles, React props you can flip. Pressing Apply hands the changes to the agent, which rewrites the code (<a href="https://cursor.com/blog/browser-visual-editor" rel="noopener">announcement</a>).</td></tr>
+            <tr><th>2 Apr 2026</th><td><a href="https://cursor.com/changelog/3-0" rel="noopener">Cursor 3.0</a> introduces the Agents window and <strong>Design Mode</strong>, for annotating and targeting UI elements in the browser.</td></tr>
+            <tr><th>Mid 2026</th><td>The CSS inspector panel for tweaking padding, colours and tokens is removed. A Cursor staff member <a href="https://forum.cursor.com/t/please-bring-back-the-css-inspector-panel-it-was-the-best-feature-any-designer-needed/165970" rel="noopener">confirmed on the forum</a> on 20 July 2026 that it &ldquo;was intentionally removed,&rdquo; and pointed people to Design Mode.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fine">Dates are from Cursor&rsquo;s changelog and forum as of 6 October 2026. Cursor ships
+      often; check the <a href="https://cursor.com/changelog" rel="noopener">changelog</a> for anything newer.</p>
+
+      <h2 id="design-mode">What Design Mode does today</h2>
+      <p>Design Mode lives in the browser inside Cursor&rsquo;s Agents window, not in the code editor.
+      Open a browser tab, load your dev server, and toggle it with <code>⌘⇧D</code>. Then, per
+      <a href="https://cursor.com/docs/agent/design-mode" rel="noopener">Cursor&rsquo;s docs</a>, you can:</p>
+      <ul>
+        <li>click an element, or several;</li>
+        <li>Shift-drag to box an area of the page;</li>
+        <li>type or speak what you want changed.</li>
+      </ul>
+      <p>The agent receives the element&rsquo;s xpath, its React component, attributes, computed styles,
+      props from the fiber tree and a screenshot, then edits your source. It works on your real running
+      app, which is its big advantage: there is nothing to sync, because the thing you point at is the
+      thing you ship.</p>
+      <p>Every change is a prompt, though. Making the heading 4 pixels smaller is a round trip through a
+      model, with the cost and variance that comes with it.</p>
+
+      <h2 id="gap">What people are missing</h2>
+      <p>The forum threads that rank for this search are mostly people asking for the direct editor back.
+      From the <a href="https://forum.cursor.com/t/please-bring-back-the-css-inspector-panel-it-was-the-best-feature-any-designer-needed/165970" rel="noopener">thread about the inspector</a>:</p>
+      <ul>
+        <li>&ldquo;Making small tweaks is now a HUGE headache.&rdquo;</li>
+        <li>Prompting for every tweak &ldquo;eat[s] into token usage.&rdquo;</li>
+      </ul>
+      <p>And on 27 September 2026 a Cursor staff member wrote that
+      &ldquo;<a href="https://forum.cursor.com/t/cursor-design-mode/172997" rel="noopener">designers and front-end developers regularly ask to bring back direct visual editing in Design Mode</a>.&rdquo;
+      There has been no announcement that it is coming back.</p>
+      <p>The underlying point is fair. Some changes are judgement calls and an agent is the right tool.
+      Others are a value: this colour, that size, these words. Sending a value through a model adds
+      cost and a chance of getting something slightly different back.</p>
+
+      <h2 id="caret">Editing directly, beside Cursor</h2>
+      <p>Caret is a free, open-source (Apache-2.0) desktop app that keeps your project&rsquo;s design in
+      the repo as real React, in a <code>.caret/</code> folder next to your app. It is a separate app,
+      not a Cursor extension, and it opens the same folder Cursor does.</p>
+      <figure>
+        <div class="shot">
+          <div class="shot-bar"><span></span><span></span><span></span><em>caret &middot; index.tsx</em></div>
+          <video class="shot-media" autoplay muted loop playsinline preload="none" poster="/assets/video/f1-edit.jpg" aria-label="Editing text and colour directly on a page in Caret">
+            <source src="/assets/video/f1-edit.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <figcaption>Right-click text, a colour or an image and change it. The edit is written into the page&rsquo;s file.</figcaption>
+      </figure>
+      <p>The split is the one the forum keeps asking for:</p>
+      <ul>
+        <li><strong>Values are direct.</strong> Retype a headline, pick a colour, swap an image, drag an
+        edge to resize. Caret writes the change into the page&rsquo;s <code>.tsx</code> file by editing
+        its syntax tree. No model is involved, so it costs nothing and comes back exactly as you set it.
+        A picked colour close to one of your tokens is written as the token, not a hex code.</li>
+        <li><strong>Judgement goes to an agent.</strong> For a change too fiddly to click, paint over the
+        region and describe it. The agent gets the exact elements you marked.</li>
+      </ul>
+      <p>The trade-off is honest to state: Caret edits the design layer, not your app. Your
+      <code>src/</code> is untouched until you sync, at which point Caret works out which design files
+      changed and an agent makes the app match, in whatever framework the app uses. If you want to point
+      at your live app and have it changed in place, that is what Design Mode is for. If you want a place
+      to get the design right first, with every change as a reviewable diff, that is what Caret is for.
+      They work together.</p>
+
+      <h2 id="setup">Using Caret with Cursor</h2>
+      <h3>Your tokens, in Cursor&rsquo;s rules</h3>
+      <p>Caret writes a rule file at <code>.cursor/rules/caret-design-layer.mdc</code> with
+      <code>alwaysApply: true</code> in its frontmatter. Cursor
+      <a href="https://cursor.com/docs/context/rules" rel="noopener">applies always-apply rules</a>
+      to every chat session, so when you ask Cursor to build something, it already has your colours,
+      type scale, spacing and radius. Caret rewrites that file whenever a token changes. It also keeps
+      the same block in <code>AGENTS.md</code>, which Cursor reads too.</p>
+
+      <h3>Cursor talking to Caret over MCP</h3>
+      <p>Caret runs a local MCP server per open project, so an agent can read your pages and tokens and
+      run the design-to-app sync. Caret generates the config for you (open a project, then
+      <strong>Backend &rarr; Connect your own agent</strong>), because the port and token change every
+      launch. For Cursor it goes in <code>.cursor/mcp.json</code>:</p>
+<pre><code>{
+  "mcpServers": {
+    "caret": {
+      "type": "http",
+      "url": "&lt;URL from Caret&gt;",
+      "headers": { "Authorization": "Bearer &lt;TOKEN from Caret&gt;" }
+    }
+  }
+}</code></pre>
+      <div class="callout plain">
+        <p>To be straight about it: the Claude Code and Codex connections have been tested end to end. The
+        Cursor snippet follows Cursor&rsquo;s documented format but has not been tested yet. If it does
+        not work for you, <a href="https://github.com/precious112/caret-desktop/issues" rel="noopener">open an issue</a>.</p>
+      </div>
+      <p>MCP runs one way here. Cursor can call into Caret, but Caret cannot push work out to Cursor, so
+      designing itself happens in Caret&rsquo;s window, on Caret&rsquo;s own backend. You sign that
+      backend in with a provider you already have, such as a ChatGPT plan, GitHub Copilot, or an API key.
+      The sync is the part you can hand to Cursor.</p>
+
+      <h2 id="faq">Questions</h2>
+      <ul class="faq">
+        <li>
+          <h3>Does Cursor still have a visual editor?</h3>
+          <p>It has Design Mode, which lets you select elements and areas in the built-in browser and
+          describe changes for the agent. The direct CSS inspector panel was removed in 2026.</p>
+        </li>
+        <li>
+          <h3>Is Caret a Cursor extension?</h3>
+          <p>No. It is a standalone desktop app for macOS, Windows and Linux. It works alongside Cursor
+          by sharing the repo, the rules file and an MCP connection.</p>
+        </li>
+        <li>
+          <h3>Does it work if my app is not React?</h3>
+          <p>The design layer in <code>.caret/</code> is always React. The app it syncs into can be
+          whatever you already ship: Next, Remix, Vue, Svelte, Rails.</p>
+        </li>
+        <li>
+          <h3>What about Onlook or Stagewise?</h3>
+          <p><a href="https://github.com/onlook-dev/onlook" rel="noopener">Onlook</a> (Apache-2.0) is a
+          open-source visual editor for Next.js and Tailwind apps; the team is now building a hosted
+          product, in early access. <a href="https://github.com/stagewise-io/stagewise" rel="noopener">Stagewise</a>
+          (AGPL-3.0) describes itself as an open-source agentic IDE. Both edit your app directly; Caret keeps a separate design layer you sync from.</p>
+        </li>
+      </ul>
+    </article>
+
+    <section class="art-cta">
+      <div class="art-cta-card">
+        <h2>Click to change it. Let Cursor keep the code.</h2>
+        <p>Caret is a free, open-source desktop app that opens the same folder as Cursor. Edits on its canvas land in files in .caret/, your tokens land in .cursor/rules, and your app changes when you sync.</p>
+        <div class="hero-cta">
+          <button class="btn btn-ink btn-lg btn-cta" id="dlPrimary" data-url="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-macOS-arm64.zip">Download for macOS</button>
+          <a class="btn btn-line btn-lg" href="/#download">All platforms</a>
+        </div>
+        <p class="fine" style="margin-top:16px">Free, Apache-2.0, no account. macOS, Windows and Linux. Needs Node.js for the live canvas.</p>
+      </div>
+    </section>
+
+    <section class="related">
+      <h2>Keep reading</h2>
+      <ul>
+        <li><a href="/claude-code-design/"><b>Claude Code and design</b><span>Skills, Figma MCP, and a design layer</span></a></li>
+        <li><a href="/design-to-code/"><b>Design to code, in your repo</b><span>How design becomes code, and back</span></a></li>
+        <li><a href="/design-tokens/"><b>What are design tokens?</b><span>Definitions, tiers, formats, and agents</span></a></li>
+        <li><a href="/figma-alternative/"><b>Figma alternatives for developers</b><span>Open source, free, and design as code</span></a></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- ───────── FOOTER ───────── -->
+  <footer class="footer">
+    <canvas class="footer-shader" id="footShader" aria-hidden="true"></canvas>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-chip"><img src="/assets/caret-logo.png" alt="" /></span>
+        <span class="brand-name">Caret</span>
+        <p>A design layer that lives in your repo.<br />Free forever, Apache-2.0.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#agents">Works with</a>
+          <a href="/#download">Download</a>
+          <a href="https://github.com/precious112/caret-desktop#readme" target="_blank" rel="noopener">Read me first</a>
+          <a href="https://github.com/precious112/caret-desktop/blob/main/docs/connect-an-agent.md" target="_blank" rel="noopener">Connect your agent</a>
+        </div>
+        <div>
+          <h4>Guides</h4>
+          <a href="/design-to-code/">Design to code</a>
+          <a href="/claude-code-design/">Claude Code and design</a>
+          <a href="/cursor-visual-editor/">A visual editor for Cursor</a>
+          <a href="/design-tokens/">What are design tokens?</a>
+        </div>
+        <div>
+          <h4>Compare</h4>
+          <a href="/figma-alternative/">Figma alternatives</a>
+          <a href="/claude-design-vs-figma/">Claude Design vs Figma</a>
+          <a href="/figma-make-alternative/">Figma Make alternatives</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-fine">
+      <span>&copy; 2026 Caret</span>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">Source</a>
+      <a href="https://github.com/precious112/caret-desktop/blob/main/LICENSE" target="_blank" rel="noopener">Apache-2.0</a>
+      <a href="https://github.com/precious112/caret-desktop/blob/main/docs/telemetry.md" target="_blank" rel="noopener">What we collect</a>
+    </div>
+    <div class="footer-mark" aria-hidden="true">Caret<i></i></div>
+  </footer>
+
+  <!-- ───────── STAR MODAL ───────── -->
+  <div class="modal-overlay" id="starModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="starTitle">
+      <button class="modal-close" id="starClose" aria-label="Close">×</button>
+      <div class="modal-star">★</div>
+      <h3 id="starTitle">Your download is starting</h3>
+      <p>Caret is free and open source. If it's useful to you, a GitHub star genuinely helps it grow.</p>
+      <div class="modal-btns">
+        <a class="btn btn-ink" id="starGo" href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">★ Star on GitHub</a>
+        <button class="btn btn-line" id="starLater">Maybe later</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/hero-shader.js"></script>
+  <script src="/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What are design tokens? A developer's guide, with examples</title>
+  <meta name="description" content="Design tokens are named design decisions stored as data. What they are, the three tiers, the DTCG format, Tailwind v4, and getting AI agents to use them." />
+  <link rel="canonical" href="https://caretai.cloud/design-tokens/" />
+  <link rel="icon" type="image/png" href="/assets/caret-logo.png" />
+  <meta property="og:title" content="What are design tokens? A developer's guide, with examples" />
+  <meta property="og:description" content="Design tokens are named design decisions stored as data. What they are, the three tiers, the DTCG format, Tailwind v4, and getting AI agents to use them." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://caretai.cloud/design-tokens/" />
+  <meta property="og:image" content="https://caretai.cloud/assets/guides/design-tokens.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/page.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "What are design tokens?",
+        "description": "Design tokens are named design decisions stored as data. What they are, the three tiers, the DTCG format, Tailwind v4, and getting AI agents to use them.",
+        "datePublished": "2026-10-06",
+        "dateModified": "2026-10-06",
+        "mainEntityOfPage": "https://caretai.cloud/design-tokens/",
+        "image": "https://caretai.cloud/assets/guides/design-tokens.webp",
+        "author": { "@type": "Organization", "name": "Caret", "url": "https://caretai.cloud/" },
+        "publisher": { "@type": "Organization", "name": "Caret", "logo": { "@type": "ImageObject", "url": "https://caretai.cloud/assets/caret-logo.png" } }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Caret", "item": "https://caretai.cloud/" },
+          { "@type": "ListItem", "position": 2, "name": "Design tokens", "item": "https://caretai.cloud/design-tokens/" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="page">
+  <!-- ───────── NAV ───────── -->
+  <header class="nav">
+    <a class="brand" href="/" aria-label="Caret home">
+      <span class="logo-chip"><img src="/assets/caret-logo.png" alt="" /></span>
+      <span class="brand-name">Caret</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#how">How it works</a>
+      <a href="/design-to-code/">Design to code</a>
+      <a href="/claude-code-design/">Claude Code</a>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <a class="btn btn-ink btn-sm" href="/#download">Download</a>
+  </header>
+
+  <main>
+    <header class="art-head">
+      <p class="crumbs"><a href="/">Caret</a> / Guides</p>
+      <h1>What are design tokens?</h1>
+      <p class="art-lede">A design token is a design decision with a name, stored as data. Instead of
+      <code>#0066cc</code> appearing in forty files, there is one value called
+      <code>color.primary</code>, and everything that means &ldquo;the primary colour&rdquo; points at it.</p>
+      <p class="art-meta">Updated 6 October 2026 &middot; 9 min read</p>
+    </header>
+
+    <figure class="art-banner">
+      <img src="/assets/guides/design-tokens.webp" width="1376" height="768" alt="A tray of design token tiles for colour, spacing, radius and type, each wired to the part of an interface card that uses it" />
+    </figure>
+
+    <article class="prose">
+      <nav class="toc" aria-label="On this page">
+        <b>On this page</b>
+        <ol>
+          <li><a href="#definition">The definition, from the people who wrote it</a></li>
+          <li><a href="#why">Why bother</a></li>
+          <li><a href="#tiers">Primitive, semantic, component</a></li>
+          <li><a href="#format">The format: DTCG 2025.10</a></li>
+          <li><a href="#css">Tokens vs CSS variables</a></li>
+          <li><a href="#tools">Where tokens live in real tools</a></li>
+          <li><a href="#agents">Tokens and AI coding agents</a></li>
+          <li><a href="#faq">Questions</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="definition">The definition, from the people who wrote it</h2>
+      <p>The term came out of Salesforce&rsquo;s Lightning Design System, where Jina Anne and Jon Levine
+      are credited with coining it. Their own page describes tokens as
+      &ldquo;<a href="https://v1.lightningdesignsystem.com/design-tokens/" rel="noopener">the visual design atoms of the design system</a>
+      &mdash; specifically, they are named entities that store visual design attributes,&rdquo; used in
+      place of hard-coded hex values and pixel sizes.</p>
+      <p>Adobe&rsquo;s Spectrum puts it in one line: tokens are
+      &ldquo;<a href="https://spectrum.adobe.com/page/design-tokens" rel="noopener">a methodology for expressing reusable design decisions as structured data</a>.&rdquo;
+      And the W3C Design Tokens Community Group, which maintains the shared file format, keeps it
+      minimal: a token is &ldquo;<a href="https://www.designtokens.org/tr/2025.10/format/" rel="noopener">information associated with a human readable name, at minimum a name/value pair</a>.&rdquo;</p>
+      <p>The useful word in all three is <em>decision</em>. A token is not just a value. It records
+      that someone decided the primary colour is this blue, that the gap between cards is 16 pixels,
+      that buttons have an 8 pixel radius, and it gives that decision a name the rest of the system
+      can point at.</p>
+
+      <h2 id="why">Why bother</h2>
+      <p>Because a value with a name can change in one place. If <code>#0066cc</code> is typed into
+      forty components, a rebrand is forty edits and a search for near-misses like
+      <code>#0067cc</code>. If those forty components say <code>color.primary</code>, it is one edit.</p>
+      <p>Names also carry intent, which raw values cannot. <code>16px</code> tells you nothing about
+      when to use it. <code>space.card-gap</code> does. That matters more than it used to, because the
+      thing reading your code is increasingly an AI agent, and an agent given a list of named
+      decisions makes fewer guesses than one given a pile of hex codes.</p>
+      <p>And tokens are platform-neutral data, so the same decisions can be turned into CSS variables
+      for the web, Swift constants for iOS and XML resources for Android from one source.</p>
+
+      <h2 id="tiers">Primitive, semantic, component</h2>
+      <p>Most systems arrange tokens in three tiers. The names differ, the idea does not.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tier</th><th>What it holds</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><th>Primitive</th><td>The raw palette. Every available value, with no opinion about where it goes.</td><td><code>color.blue.600 = #0066cc</code></td></tr>
+            <tr><th>Semantic</th><td>Purpose. Points at a primitive and says what it is for.</td><td><code>color.action.primary = {color.blue.600}</code></td></tr>
+            <tr><th>Component</th><td>One component&rsquo;s use of a semantic token.</td><td><code>button.background = {color.action.primary}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Spectrum calls the first tier primitive tokens that &ldquo;communicate little or no information
+      about how those values should be used,&rdquo; and the second semantic tokens that &ldquo;communicate
+      purpose.&rdquo; Material Design 3 uses
+      <a href="https://m3.material.io/foundations/design-tokens/overview" rel="noopener">reference, system and component</a>
+      tokens for the same three layers. Nathan Curtis&rsquo;s
+      <a href="https://nathanacurtis.substack.com/p/naming-tokens-in-design-systems-9e86c7444676" rel="noopener">Naming Tokens in Design Systems</a>
+      is the standard reference for the naming itself, and has one piece of advice worth repeating:
+      start a token inside a component, and promote it to a shared tier once several components need it.</p>
+      <p>The semantic tier is the one that pays off. Dark mode, a second brand, a high-contrast theme:
+      each is a different mapping from semantic names to primitives, while the components never change.</p>
+
+      <h2 id="format">The format: DTCG 2025.10</h2>
+      <p>For years every tool had its own token JSON. On 28 October 2025 the W3C Design Tokens
+      Community Group published
+      <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/" rel="noopener">the first stable version of its specification</a>,
+      2025.10. It is a Community Group report rather than a formal W3C standard, but it is the format
+      Style Dictionary, Tokens Studio and Terrazzo implement, and the one Figma can import.</p>
+      <p>The basics:</p>
+      <ul>
+        <li>Files use <code>.tokens</code> or <code>.tokens.json</code>.</li>
+        <li>A token is an object with a <code>$value</code>. <code>$type</code>,
+        <code>$description</code> and <code>$deprecated</code> are optional, and <code>$type</code> can
+        be set once on a group and inherited.</li>
+        <li>An alias is a reference in braces: <code>"{color.blue-600}"</code>.</li>
+        <li>Simple types are <code>color</code>, <code>dimension</code>, <code>fontFamily</code>,
+        <code>fontWeight</code>, <code>duration</code>, <code>cubicBezier</code> and <code>number</code>.
+        Composite types are <code>strokeStyle</code>, <code>border</code>, <code>transition</code>,
+        <code>shadow</code>, <code>gradient</code> and <code>typography</code>.</li>
+      </ul>
+      <p>One thing catches people coming from older formats: in 2025.10 a colour is an object with a
+      colour space, not a hex string, and a dimension is a value with a unit.</p>
+<pre><code>{
+  "color": {
+    "$type": "color",
+    "blue-600": {
+      "$value": { "colorSpace": "srgb", "components": [0, 0.4, 0.8], "hex": "#0066cc" }
+    },
+    "primary": {
+      "$value": "{color.blue-600}",
+      "$description": "Main action colour"
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "4": { "$value": { "value": 16, "unit": "px" } }
+  },
+  "radius": {
+    "md": { "$type": "dimension", "$value": { "value": 0.5, "unit": "rem" } }
+  }
+}</code></pre>
+
+      <h2 id="css">Tokens vs CSS variables</h2>
+      <p>They are not the same thing, and the difference is where each one lives. Penpot&rsquo;s
+      <a href="https://penpot.app/blog/the-developers-guide-to-design-tokens-and-css-variables/" rel="noopener">developer guide</a>
+      puts it well: &ldquo;Design tokens define what the design values are and their semantic meaning.
+      CSS variables determine how these values are implemented in the browser.&rdquo;</p>
+      <p>The token file above becomes this on the web:</p>
+<pre><code>:root {
+  --color-blue-600: #0066cc;
+  --color-primary: var(--color-blue-600);
+  --space-4: 16px;
+  --radius-md: 0.5rem;
+}</code></pre>
+      <p>Custom properties are one output of a token. The token is the source; the variable is what the
+      browser sees.</p>
+
+      <h2 id="tools">Where tokens live in real tools</h2>
+      <h3>Tailwind CSS v4</h3>
+      <p>Tailwind now says this outright: &ldquo;<a href="https://tailwindcss.com/docs/theme" rel="noopener">These low-level design decisions are often called design tokens, and in Tailwind projects you store those values in theme variables.</a>&rdquo;
+      You declare them with <code>@theme</code>, and each one both becomes a CSS variable and decides
+      which utility classes exist:</p>
+<pre><code>@theme {
+  --color-brand-600: #0066cc;
+}
+<span class="c">/* now bg-brand-600 and text-brand-600 exist,
+   and var(--color-brand-600) is available everywhere */</span></code></pre>
+      <p>The flip side is easy to miss: if an agent writes <code>text-brand-950</code> and there is no
+      <code>--color-brand-950</code> in a theme, Tailwind generates nothing for it. The class looks
+      right in the diff and does nothing on the page.</p>
+
+      <h3>Style Dictionary</h3>
+      <p><a href="https://styledictionary.com/info/dtcg/" rel="noopener">Style Dictionary</a> turns one
+      token source into CSS, JavaScript, iOS and Android output. It has supported the DTCG format since
+      version 4; its own docs note that full support for 2025.10 is still in progress in version 5.</p>
+
+      <h3>Figma Variables and Tokens Studio</h3>
+      <p>Figma&rsquo;s variables are its built-in store for these values, and its help centre documents
+      <a href="https://help.figma.com/hc/en-us/articles/15343816063383-Modes-for-variables" rel="noopener">exporting modes to JSON and importing DTCG tokens</a>.
+      Tokens Studio, the long-running Figma plugin, can switch between its own legacy format and DTCG.</p>
+
+      <h3>Penpot</h3>
+      <p>The open-source design tool added native tokens in 2025, built with Tokens Studio. Users have
+      <a href="https://community.penpot.app/t/token-export-is-tokens-studio-format-not-dtcg-2025-10/10544" rel="noopener">pointed out</a>
+      that its export is Tokens Studio&rsquo;s multi-set format rather than 2025.10, so check before
+      wiring it into a pipeline that expects the spec.</p>
+
+      <h2 id="agents">Tokens and AI coding agents</h2>
+      <p>Here is the problem in one sentence: an agent told to &ldquo;build me a card&rdquo; that has to
+      <em>choose</em> to look up your spacing scale usually won&rsquo;t, and fills the gap from its
+      training data. You get <code>p-5</code> where your system says 16, and a blue that is close to
+      yours but not yours.</p>
+      <p>Two things help. The first is putting the tokens where the agent reads before its first turn.
+      Every mainstream coding agent loads a rules file automatically:</p>
+      <ul>
+        <li><strong>Claude Code</strong> loads <code>CLAUDE.md</code> at the start of every session, and
+        its docs note that &ldquo;<a href="https://code.claude.com/docs/en/memory" rel="noopener">the more specific and concise your instructions, the more consistently Claude follows them</a>.&rdquo;</li>
+        <li><strong>Cursor</strong> applies <code>.mdc</code> files in
+        <a href="https://cursor.com/docs/context/rules" rel="noopener"><code>.cursor/rules/</code></a>,
+        and a rule with <code>alwaysApply: true</code> is included in every request. A plain
+        <code>.md</code> file in that folder is ignored.</li>
+        <li><strong>Codex and many others</strong> read <a href="https://agents.md/" rel="noopener"><code>AGENTS.md</code></a>,
+        an open format described as a README for agents.</li>
+      </ul>
+      <p>A rules file is context, not enforcement, and it goes stale the moment a token changes. The
+      second thing that helps is the codebase itself.
+      <a href="https://www.builder.io/blog/how-to-make-ai-agents-follow-your-design-system" rel="noopener">Builder.io&rsquo;s write-up</a>
+      on this has the line worth remembering: &ldquo;Your codebase is your prompt.&rdquo; An agent copies
+      the patterns it sees, so code that already uses tokens everywhere teaches it to do the same, and a
+      linter that rejects raw hex values closes the loop.</p>
+
+      <h3>How Caret handles it</h3>
+      <p>Caret is a free, open-source desktop app that keeps a project&rsquo;s design in the repo as
+      real React, in a <code>.caret/</code> folder beside your app. Its foundation tokens (colour,
+      type, spacing, radius) live in <code>.caret/tokens/foundation.json</code>, in Caret&rsquo;s own
+      shape rather than DTCG. From there it does three things:</p>
+      <ul>
+        <li>It generates Tailwind v4 <code>@theme</code> variables from them, so a class like
+        <code>bg-brand-500</code> actually resolves on the canvas.</li>
+        <li>It writes them into <code>AGENTS.md</code>, <code>CLAUDE.md</code> and
+        <code>.cursor/rules/caret-design-layer.mdc</code> (with <code>alwaysApply: true</code>), inside
+        a marked block, and rewrites that block on every token change. Anything you wrote outside the
+        block is left alone.</li>
+        <li>When you pick a colour on the canvas, it checks the pick against your tokens and writes the
+        token instead of a hex code when one is close.</li>
+      </ul>
+
+      <h2 id="faq">Questions</h2>
+      <ul class="faq">
+        <li>
+          <h3>Are design tokens the same as Figma variables?</h3>
+          <p>Figma variables are one place to store tokens. The token is the decision and its name; a
+          Figma variable, a CSS custom property or a Tailwind theme variable is where that decision is
+          kept or how it is delivered.</p>
+        </li>
+        <li>
+          <h3>Is DTCG a W3C standard?</h3>
+          <p>Not formally. 2025.10 is a Final Community Group Report from a W3C community group. In
+          practice it is the shared format the major token tools have converged on.</p>
+        </li>
+        <li>
+          <h3>How many tokens should a small project have?</h3>
+          <p>Fewer than you think. A brand colour with a scale, a neutral scale, a handful of semantic
+          colours, one spacing scale, one type scale and four or five radii cover most products.
+          Add a token when the same decision shows up in a third place, not before.</p>
+        </li>
+        <li>
+          <h3>Do I need a token pipeline to start?</h3>
+          <p>No. A single CSS file of custom properties, or a Tailwind <code>@theme</code> block, is a
+          token system. Reach for Style Dictionary when you need the same decisions on more than one
+          platform.</p>
+        </li>
+      </ul>
+    </article>
+
+    <section class="art-cta">
+      <div class="art-cta-card">
+        <h2>Keep your tokens where your agent reads them.</h2>
+        <p>Caret stores your colour, type, spacing and radius in your repo, turns them into Tailwind theme variables, and writes them into AGENTS.md, CLAUDE.md and .cursor/rules so every agent session starts with them.</p>
+        <div class="hero-cta">
+          <button class="btn btn-ink btn-lg btn-cta" id="dlPrimary" data-url="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-macOS-arm64.zip">Download for macOS</button>
+          <a class="btn btn-line btn-lg" href="/#download">All platforms</a>
+        </div>
+        <p class="fine" style="margin-top:16px">Free, Apache-2.0, no account. macOS, Windows and Linux. Needs Node.js for the live canvas.</p>
+      </div>
+    </section>
+
+    <section class="related">
+      <h2>Keep reading</h2>
+      <ul>
+        <li><a href="/design-to-code/"><b>Design to code, in your repo</b><span>How design becomes code, and back</span></a></li>
+        <li><a href="/claude-code-design/"><b>Claude Code and design</b><span>Skills, Figma MCP, and a design layer</span></a></li>
+        <li><a href="/cursor-visual-editor/"><b>A visual editor for Cursor</b><span>What Design Mode does, and what it doesn't</span></a></li>
+        <li><a href="/figma-alternative/"><b>Figma alternatives for developers</b><span>Open source, free, and design as code</span></a></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- ───────── FOOTER ───────── -->
+  <footer class="footer">
+    <canvas class="footer-shader" id="footShader" aria-hidden="true"></canvas>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-chip"><img src="/assets/caret-logo.png" alt="" /></span>
+        <span class="brand-name">Caret</span>
+        <p>A design layer that lives in your repo.<br />Free forever, Apache-2.0.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#agents">Works with</a>
+          <a href="/#download">Download</a>
+          <a href="https://github.com/precious112/caret-desktop#readme" target="_blank" rel="noopener">Read me first</a>
+          <a href="https://github.com/precious112/caret-desktop/blob/main/docs/connect-an-agent.md" target="_blank" rel="noopener">Connect your agent</a>
+        </div>
+        <div>
+          <h4>Guides</h4>
+          <a href="/design-to-code/">Design to code</a>
+          <a href="/claude-code-design/">Claude Code and design</a>
+          <a href="/cursor-visual-editor/">A visual editor for Cursor</a>
+          <a href="/design-tokens/">What are design tokens?</a>
+        </div>
+        <div>
+          <h4>Compare</h4>
+          <a href="/figma-alternative/">Figma alternatives</a>
+          <a href="/claude-design-vs-figma/">Claude Design vs Figma</a>
+          <a href="/figma-make-alternative/">Figma Make alternatives</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-fine">
+      <span>&copy; 2026 Caret</span>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">Source</a>
+      <a href="https://github.com/precious112/caret-desktop/blob/main/LICENSE" target="_blank" rel="noopener">Apache-2.0</a>
+      <a href="https://github.com/precious112/caret-desktop/blob/main/docs/telemetry.md" target="_blank" rel="noopener">What we collect</a>
+    </div>
+    <div class="footer-mark" aria-hidden="true">Caret<i></i></div>
+  </footer>
+
+  <!-- ───────── STAR MODAL ───────── -->
+  <div class="modal-overlay" id="starModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="starTitle">
+      <button class="modal-close" id="starClose" aria-label="Close">×</button>
+      <div class="modal-star">★</div>
+      <h3 id="starTitle">Your download is starting</h3>
+      <p>Caret is free and open source. If it's useful to you, a GitHub star genuinely helps it grow.</p>
+      <div class="modal-btns">
+        <a class="btn btn-ink" id="starGo" href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">★ Star on GitHub</a>
+        <button class="btn btn-line" id="starLater">Maybe later</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/hero-shader.js"></script>
+  <script src="/main.js"></script>
+</body>
+</html>

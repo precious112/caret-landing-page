@@ -13,6 +13,10 @@ styles.css      # styling (warm paper + Caret blue, editorial serif)
 hero-shader.js  # the WebGL wash behind the hero and footer
 sections.js     # hero diff panel, feature rail, why line, logo ring
 main.js         # download handling, OS detection, scroll reveal, star modal
+page.css        # long-form page styles, loaded after styles.css on every page but the landing
+<slug>/index.html  # guides and comparisons, one folder each (served at /<slug>/)
+sitemap.xml     # every page; add a line when you add a page
+robots.txt
 netlify.toml    # deploy config (publish root, no build)
 assets/
   caret-logo.png
@@ -31,6 +35,26 @@ layer lives in `.caret/`, *beside* the app rather than inside it: same repo, bot
 Caret does not write to your app on its own. Copy that says Caret "edits your real code" or that
 changes "land in the files you ship" describes a different product and scares off exactly the
 person with a production codebase. Say **repo**, not app source.
+
+## Guides and comparisons
+
+Each SEO page is a plain HTML file in its own folder (`/design-to-code/`,
+`/claude-code-design/`, `/cursor-visual-editor/`, `/design-tokens/`,
+`/figma-alternative/`, `/claude-design-vs-figma/`, `/figma-make-alternative/`).
+They share the nav, footer and download card by copy, and use root-absolute
+paths (`/styles.css`, `/assets/...`) because they sit one level down.
+
+Two rules for these pages:
+
+- **Every claim about another product links to its source and is dated.** Prices,
+  plans and features change; the "Updated" line at the top is the date they were
+  last checked. Re-check before changing that date.
+- **Say what Caret is not.** Each comparison says where Caret is the wrong pick, and
+  names trademarks only to describe how Caret works with them, with a "not
+  affiliated" line in the header.
+
+When you add or retitle a page, update `sitemap.xml` and the footer columns on
+every page (the landing page included).
 
 ## The hero diff panel
 

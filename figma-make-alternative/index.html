@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Figma Make alternatives: Lovable, v0, Bolt, Stitch compared (2026)</title>
+  <meta name="description" content="Figma Make alternatives compared on code ownership, GitHub sync and backend: Lovable, v0, Bolt, Google Stitch, Magic Patterns, and Caret for existing apps." />
+  <link rel="canonical" href="https://caretai.cloud/figma-make-alternative/" />
+  <link rel="icon" type="image/png" href="/assets/caret-logo.png" />
+  <meta property="og:title" content="Figma Make alternatives: Lovable, v0, Bolt, Stitch compared (2026)" />
+  <meta property="og:description" content="Figma Make alternatives compared on code ownership, GitHub sync and backend: Lovable, v0, Bolt, Google Stitch, Magic Patterns, and Caret for existing apps." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://caretai.cloud/figma-make-alternative/" />
+  <meta property="og:image" content="https://caretai.cloud/assets/guides/figma-alternative.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/page.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Figma Make alternatives, and Figma Make vs Lovable",
+        "description": "Figma Make alternatives compared on code ownership, GitHub sync and backend: Lovable, v0, Bolt, Google Stitch, Magic Patterns, and Caret for existing apps.",
+        "datePublished": "2026-10-06",
+        "dateModified": "2026-10-06",
+        "mainEntityOfPage": "https://caretai.cloud/figma-make-alternative/",
+        "image": "https://caretai.cloud/assets/guides/figma-alternative.webp",
+        "author": { "@type": "Organization", "name": "Caret", "url": "https://caretai.cloud/" },
+        "publisher": { "@type": "Organization", "name": "Caret", "logo": { "@type": "ImageObject", "url": "https://caretai.cloud/assets/caret-logo.png" } }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Caret", "item": "https://caretai.cloud/" },
+          { "@type": "ListItem", "position": 2, "name": "Figma Make alternatives", "item": "https://caretai.cloud/figma-make-alternative/" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="page">
+  <!-- ───────── NAV ───────── -->
+  <header class="nav">
+    <a class="brand" href="/" aria-label="Caret home">
+      <span class="logo-chip"><img src="/assets/caret-logo.png" alt="" /></span>
+      <span class="brand-name">Caret</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#how">How it works</a>
+      <a href="/design-to-code/">Design to code</a>
+      <a href="/claude-code-design/">Claude Code</a>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <a class="btn btn-ink btn-sm" href="/#download">Download</a>
+  </header>
+
+  <main>
+    <header class="art-head">
+      <p class="crumbs"><a href="/">Caret</a> / Compare</p>
+      <h1>Figma Make alternatives, and Figma Make vs Lovable</h1>
+      <p class="art-lede">Figma Make turns a prompt or a design into a working front end. The tools people
+      compare it with all do something similar, and differ in the part that matters a month later: where
+      the code lives and whether you can keep working on it.</p>
+      <p class="art-meta">Updated 6 October 2026 &middot; 7 min read &middot; Caret is not affiliated with any product named here. Details checked on the date above.</p>
+    </header>
+
+    <figure class="art-banner">
+      <img src="/assets/guides/figma-alternative.webp" width="1376" height="768" alt="An app design rising out of a project folder and turning into code, while separate design-tool windows drift away" />
+    </figure>
+
+    <article class="prose">
+      <h2 id="make">What Figma Make is</h2>
+      <p>Figma announced Make at Config in May 2025 and made it
+      <a href="https://www.figma.com/blog/figma-make-general-availability/" rel="noopener">generally available</a>
+      on 24 July 2025. It is a prompt-to-app tool inside Figma: describe a screen, or start from a design or
+      image, and it builds a working prototype. Full use needs a Full seat, and each prompt spends AI credits
+      (<a href="https://help.figma.com/hc/en-us/articles/42614902212887-AI-credit-updates-FAQ" rel="noopener">credit FAQ</a>).</p>
+      <p>You can download Make&rsquo;s code as a zip or push it to GitHub. The push is
+      <a href="https://help.figma.com/hc/en-us/articles/35463818346647-Push-from-Figma-Make-to-GitHub" rel="noopener">one-way</a>:
+      changes made on the GitHub side are overwritten by the next push from Make. If you plan to keep working on the code outside Make, that one detail matters most.</p>
+
+      <h2 id="table">The alternatives at a glance</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tool</th><th>What it makes</th><th>Where the code lives</th><th>Good for</th></tr></thead>
+          <tbody>
+            <tr><th>Lovable</th><td>Full-stack apps from chat</td><td>In Lovable, with two-way GitHub sync</td><td>Shipping a new app without a separate backend setup</td></tr>
+            <tr><th>v0</th><td>Next.js, Tailwind and shadcn/ui apps</td><td>Deploys, or opens a pull request</td><td>React teams who want generated code in review</td></tr>
+            <tr><th>Bolt</th><td>Apps and websites from chat, with hosting and databases</td><td>In Bolt</td><td>Quick full-stack prototypes</td></tr>
+            <tr><th>Google Stitch</th><td>UI designs and front-end code from prompts or images</td><td>Exports code, or pastes to Figma</td><td>Exploring UI ideas, free, from Google Labs</td></tr>
+            <tr><th>Magic Patterns</th><td>Generated UI for product teams</td><td>In Magic Patterns</td><td>Product managers prototyping features</td></tr>
+            <tr><th>Caret</th><td>Pages as real React in your own repo</td><td>Your repo, in <code>.caret/</code></td><td>Designing for an app that already exists</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Lovable</h3>
+      <p>The most common comparison. Lovable builds full-stack apps from chat, including a database and
+      deploys. Its <a href="https://docs.lovable.dev/integrations/github" rel="noopener">GitHub integration</a>
+      syncs both ways on one branch: changes in Lovable are pushed to GitHub, and changes pushed to that
+      branch come back into Lovable. The code is stored and managed on Lovable&rsquo;s platform.</p>
+      <h3>v0</h3>
+      <p>Vercel&rsquo;s <a href="https://v0.app/docs" rel="noopener">v0</a> generates Next.js with Tailwind and
+      shadcn/ui, can start from a screenshot or Figma file, and can open a pull request for review. There is a
+      free tier with a daily message limit.</p>
+      <h3>Bolt</h3>
+      <p><a href="https://bolt.new/" rel="noopener">Bolt</a> builds apps and websites by chat and handles
+      hosting and databases for you.</p>
+      <h3>Google Stitch</h3>
+      <p>A Google Labs <a href="https://developers.googleblog.com/en/stitch-a-new-way-to-design-uis/" rel="noopener">experiment</a>
+      that turns prompts and images into UI designs and front-end code, which you can paste into Figma.</p>
+      <h3>Magic Patterns</h3>
+      <p><a href="https://www.magicpatterns.com/" rel="noopener">Magic Patterns</a> describes itself as an AI
+      design tool that helps product teams go from idea to production by generating UI.</p>
+
+      <h2 id="vs-lovable">Figma Make vs Lovable</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Figma Make</th><th>Lovable</th></tr></thead>
+          <tbody>
+            <tr><th>Starting point</th><td>A prompt, or a design already in Figma</td><td>A prompt</td></tr>
+            <tr><th>Back end</th><td>Prototypes and web apps, with an optional Supabase backend and publishing</td><td>Full stack, with a database and deploys</td></tr>
+            <tr><th>GitHub</th><td>One-way push</td><td>Two-way sync on one branch</td></tr>
+            <tr><th>Best when</th><td>Your team already designs in Figma</td><td>You want a full-stack app from scratch</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Short version: Make fits best when the design already lives in Figma, and Lovable when you want a
+      full-stack app and are starting from nothing. Both charge per use through credits, so a long back-and-forth costs more than
+      the plan price suggests.</p>
+
+      <h2 id="existing">If you already have an app</h2>
+      <p>Every tool above is strongest at the start of a project. They generate a new codebase, or a new
+      prototype, and work best while they own it. The harder case is a product that already exists, with its
+      own framework, components and business logic, where you want to change how it looks without handing it
+      to another platform.</p>
+      <p>That is the case Caret is built for. It is a free, open-source desktop app that keeps the design inside
+      your existing repo, as real React in a <code>.caret/</code> folder beside your app:</p>
+      <ul>
+        <li>you design on a live canvas, by clicking and editing, or by marking a region and describing it;</li>
+        <li>every change is a file in git, so nothing is overwritten by a push from somewhere else;</li>
+        <li>when you are ready, an agent makes your app match, in whatever framework it already uses, and keeps
+        your app&rsquo;s data and API wiring as it was.</li>
+      </ul>
+      <p>Nothing is hosted. There is no credit meter in Caret itself: you connect a model you already pay for,
+      such as a ChatGPT or GitHub Copilot plan, or an API key.</p>
+
+      <h2 id="faq">Questions</h2>
+      <ul class="faq">
+        <li>
+          <h3>Is there a free alternative to Figma Make?</h3>
+          <p>Google Stitch is free, with monthly generation limits, while it is a Google Labs experiment, v0 has a free tier, and Caret is free and open
+          source, though you supply the AI model.</p>
+        </li>
+        <li>
+          <h3>Can I export code from Figma Make?</h3>
+          <p>Yes, as a zip or by pushing to GitHub. The GitHub push is one-way.</p>
+        </li>
+        <li>
+          <h3>Which one gives me the most control over the code?</h3>
+          <p>The ones where the code lives in your own repo from the start: v0&rsquo;s pull requests, or Caret,
+          which never leaves your repo at all.</p>
+        </li>
+      </ul>
+    </article>
+
+    <section class="art-cta">
+      <div class="art-cta-card">
+        <h2>Already have an app? Design inside it.</h2>
+        <p>Caret keeps your design in your existing repo as real React, and syncs it into the app you already ship. Free, open source, no account.</p>
+        <div class="hero-cta">
+          <button class="btn btn-ink btn-lg btn-cta" id="dlPrimary" data-url="https://github.com/precious112/caret-desktop/releases/latest/download/Caret-macOS-arm64.zip">Download for macOS</button>
+          <a class="btn btn-line btn-lg" href="/#download">All platforms</a>
+        </div>
+        <p class="fine" style="margin-top:16px">Free, Apache-2.0, no account. macOS, Windows and Linux. Needs Node.js for the live canvas.</p>
+      </div>
+    </section>
+
+    <section class="related">
+      <h2>Keep reading</h2>
+      <ul>
+        <li><a href="/figma-alternative/"><b>Figma alternatives for developers</b><span>Open source, free, and design as code</span></a></li>
+        <li><a href="/design-to-code/"><b>Design to code, in your repo</b><span>How design becomes code, and back</span></a></li>
+        <li><a href="/claude-design-vs-figma/"><b>Claude Design vs Figma</b><span>Where each fits, and where Caret does</span></a></li>
+        <li><a href="/claude-code-design/"><b>Claude Code and design</b><span>Skills, Figma MCP, and a design layer</span></a></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- ───────── FOOTER ───────── -->
+  <footer class="footer">
+    <canvas class="footer-shader" id="footShader" aria-hidden="true"></canvas>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-chip"><img src="/assets/caret-logo.png" alt="" /></span>
+        <span class="brand-name">Caret</span>
+        <p>A design layer that lives in your repo.<br />Free forever, Apache-2.0.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#agents">Works with</a>
+          <a href="/#download">Download</a>
+          <a href="https://github.com/precious112/caret-desktop#readme" target="_blank" rel="noopener">Read me first</a>
+          <a href="https://github.com/precious112/caret-desktop/blob/main/docs/connect-an-agent.md" target="_blank" rel="noopener">Connect your agent</a>
+        </div>
+        <div>
+          <h4>Guides</h4>
+          <a href="/design-to-code/">Design to code</a>
+          <a href="/claude-code-design/">Claude Code and design</a>
+          <a href="/cursor-visual-editor/">A visual editor for Cursor</a>
+          <a href="/design-tokens/">What are design tokens?</a>
+        </div>
+        <div>
+          <h4>Compare</h4>
+          <a href="/figma-alternative/">Figma alternatives</a>
+          <a href="/claude-design-vs-figma/">Claude Design vs Figma</a>
+          <a href="/figma-make-alternative/">Figma Make alternatives</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-fine">
+      <span>&copy; 2026 Caret</span>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">Source</a>
+      <a href="https://github.com/precious112/caret-desktop/blob/main/LICENSE" target="_blank" rel="noopener">Apache-2.0</a>
+      <a href="https://github.com/precious112/caret-desktop/blob/main/docs/telemetry.md" target="_blank" rel="noopener">What we collect</a>
+    </div>
+    <div class="footer-mark" aria-hidden="true">Caret<i></i></div>
+  </footer>
+
+  <!-- ───────── STAR MODAL ───────── -->
+  <div class="modal-overlay" id="starModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="starTitle">
+      <button class="modal-close" id="starClose" aria-label="Close">×</button>
+      <div class="modal-star">★</div>
+      <h3 id="starTitle">Your download is starting</h3>
+      <p>Caret is free and open source. If it's useful to you, a GitHub star genuinely helps it grow.</p>
+      <div class="modal-btns">
+        <a class="btn btn-ink" id="starGo" href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">★ Star on GitHub</a>
+        <button class="btn btn-line" id="starLater">Maybe later</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/hero-shader.js"></script>
+  <script src="/main.js"></script>
+</body>
+</html>

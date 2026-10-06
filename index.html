@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Caret: a design layer that lives in your repo</title>
-  <meta name="description" content="Your design shouldn't live outside your codebase. Caret keeps it in your repo as real React in .caret/, rendered live on a canvas you can click and edit. Free, open source, runs on your machine." />
+  <title>Caret: a design layer in your repo | Open-source design to code</title>
+  <meta name="description" content="Free, open-source design to code for developers. Your design lives in your repo as real React, on a canvas you can click and edit, synced into your app." />
+  <link rel="canonical" href="https://caretai.cloud/" />
   <link rel="icon" type="image/png" href="assets/caret-logo.png" />
   <meta property="og:title" content="Caret: a design layer that lives in your repo" />
   <meta property="og:description" content="Your design shouldn't live outside your codebase. Caret keeps it in your repo as real React, rendered live on a canvas you can click and edit." />
@@ -17,6 +18,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Caret",
+    "url": "https://caretai.cloud/",
+    "description": "A free, open-source design layer that lives in your repo: real React in .caret/, rendered live on a canvas you can click and edit, synced into your app by your own AI agent.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS, Windows, Linux",
+    "license": "https://www.apache.org/licenses/LICENSE-2.0",
+    "image": "https://caretai.cloud/assets/video/hero-loop.jpg",
+    "downloadUrl": "https://github.com/precious112/caret-desktop/releases/latest",
+    "codeRepository": "https://github.com/precious112/caret-desktop",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
 </head>
 <body>
   <!-- ───────── NAV ───────── -->
@@ -238,7 +255,8 @@
           <h2 class="h2">Use Caret with your own agent and harness.</h2>
           <p>Designing happens in Caret, signed in with the AI coding plan you already pay for.
           Pushing those designs into your app can happen here too, or you can hand the sync to
-          the agent in your terminal over MCP.</p>
+          the agent in your terminal over MCP, as in <a href="/claude-code-design/">Claude Code</a>
+          or <a href="/cursor-visual-editor/">Cursor</a>.</p>
         </div>
       </div>
       <h2 class="h2 qa-head">Questions we get asked.</h2>
@@ -253,7 +271,8 @@
         <li>
           <h3>Does it work with my stack?</h3>
           <p>The design layer is React either way. Sync translates it into what you ship, so the
-          app side can be whatever is already there: Next, Remix, Vue, Svelte, Rails.</p>
+          app side can be whatever is already there: Next, Remix, Vue, Svelte, Rails.
+          <a href="/design-to-code/">How design to code works here</a>.</p>
         </li>
         <li>
           <h3>Does my code leave my machine?</h3>
@@ -311,12 +330,14 @@
         <span class="brand-name">Caret</span>
         <p>A design layer that lives in your repo.<br />Free forever, Apache-2.0.</p>
       </div>
-      <div class="footer-cols">
+      <div class="footer-cols footer-cols-4">
         <div>
           <h4>Product</h4>
           <a href="#features">Features</a>
           <a href="#agents">Works with</a>
           <a href="#download">Download</a>
+          <a href="https://github.com/precious112/caret-desktop/releases" target="_blank" rel="noopener">Releases</a>
+          <a href="https://github.com/precious112/caret-desktop/discussions" target="_blank" rel="noopener">Discussions</a>
         </div>
         <div>
           <h4>Docs</h4>
@@ -325,15 +346,23 @@
           <a href="https://github.com/precious112/caret-desktop/blob/main/docs/telemetry.md" target="_blank" rel="noopener">Telemetry</a>
         </div>
         <div>
-          <h4>Project</h4>
-          <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">Source</a>
-          <a href="https://github.com/precious112/caret-desktop/releases" target="_blank" rel="noopener">Releases</a>
-          <a href="https://github.com/precious112/caret-desktop/discussions" target="_blank" rel="noopener">Discussions</a>
+          <h4>Guides</h4>
+          <a href="/design-to-code/">Design to code</a>
+          <a href="/claude-code-design/">Claude Code and design</a>
+          <a href="/cursor-visual-editor/">A visual editor for Cursor</a>
+          <a href="/design-tokens/">What are design tokens?</a>
+        </div>
+        <div>
+          <h4>Compare</h4>
+          <a href="/figma-alternative/">Figma alternatives</a>
+          <a href="/claude-design-vs-figma/">Claude Design vs Figma</a>
+          <a href="/figma-make-alternative/">Figma Make alternatives</a>
         </div>
       </div>
     </div>
     <div class="footer-fine">
       <span>&copy; 2026 Caret</span>
+      <a href="https://github.com/precious112/caret-desktop" target="_blank" rel="noopener">Source</a>
       <a href="https://github.com/precious112/caret-desktop/blob/main/LICENSE" target="_blank" rel="noopener">Apache-2.0</a>
       <a href="https://github.com/precious112/caret-desktop/blob/main/docs/telemetry.md" target="_blank" rel="noopener">What we collect</a>
     </div>
