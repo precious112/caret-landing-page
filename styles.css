@@ -488,6 +488,18 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 110px 26px; }
 .footer-cols-4 { grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .footer-cols a { display: block; color: var(--muted); font-size: 15px; padding: 5px 0; transition: color .15s; }
 .footer-cols a:hover { color: var(--brand-deep); }
+/* Directory badges: one quiet row, all at the same height, above the fine print. */
+.footer-featured {
+  position: relative; z-index: 2; max-width: var(--maxw-hero); margin: 0 auto;
+  padding: 0 26px 24px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
+}
+.footer-featured-label {
+  font-size: 11.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted-2); margin-right: 4px;
+}
+.footer-featured a { display: inline-flex; line-height: 0; opacity: .85; transition: opacity .15s; }
+.footer-featured a:hover { opacity: 1; }
+.footer-featured img { height: 36px; width: auto; }
 .footer-mark {
   position: relative; z-index: 1; text-align: center;
   font-family: var(--serif); font-weight: 600; letter-spacing: -.04em;
